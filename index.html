@@ -130,6 +130,14 @@
       background: #fafbfc; font-size: 0.9rem;
     }
     .form-group input:focus, .form-group select:focus { outline: 2px solid #0b2b4f; outline-offset: 2px; }
+    
+    .upload-area {
+      border: 2px dashed #dce3ec; border-radius: 1.5rem; padding: 2rem;
+      text-align: center; cursor: pointer; transition: 0.3s; background: #fafbfc;
+    }
+    .upload-area:hover { border-color: #0b2b4f; background: #f1f5ff; }
+    .upload-area i { font-size: 2rem; color: #0b2b4f; margin-bottom: 0.5rem; }
+    
     .preview-container {
       width: 100%; aspect-ratio: 16/9; background: #edf2f9;
       border-radius: 1rem; overflow: hidden; margin-top: 0.5rem; display: none; position: relative;
@@ -152,6 +160,15 @@
       border-top: 4px solid #0b2b4f; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    
+    .status-message {
+      position: fixed; bottom: 20px; right: 20px; padding: 1rem 1.5rem;
+      border-radius: 2rem; color: white; font-weight: 600; z-index: 3000;
+      display: none; animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .status-success { background: #10b981; }
+    .status-error { background: #ef4444; }
   </style>
 </head>
 <body>
@@ -169,7 +186,7 @@
           <i class="fas fa-folder-tree"></i> Categories
         </button>
         <button class="btn btn-primary" id="openImportModalBtn">
-          <i class="fas fa-cloud-upload-alt"></i> Import Media
+          <i class="fas fa-cloud-upload-alt"></i> Add Media
         </button>
         <button class="btn btn-outline" id="refreshBtn" title="Refresh from database">
           <i class="fas fa-sync-alt"></i>
@@ -197,15 +214,40 @@
 
   <div class="loading-overlay" id="loadingOverlay">
     <div class="spinner"></div>
-    <p>Saving to database...</p>
+    <p id="loadingText">Loading...</p>
   </div>
+  
+  <div class="status-message" id="statusMessage"></div>
 
   <!-- STEP 1: Import Modal -->
   <div class="modal-overlay" id="importModal">
     <div class="modal">
-      <h3><i class="fas fa-cloud-upload-alt"></i> Import Media</h3>
+      <h3><i class="fas fa-cloud-upload-alt"></i> Add Media</h3>
+      
+      <!-- Upload from device -->
       <div class="form-group">
-        <label>Select Section</label>
+        <label>Upload from Device</label>
+        <div class="upload-area" id="uploadArea">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Click or drag files here</p>
+          <small style="color:#64748b;">Photos, videos, or any file</small>
+        </div>
+        <input type="file" id="fileInput" style="display:none;" multiple accept="image/*,video/*,.pdf,.psd,.ai,.fig,.zip">
+      </div>
+      
+      <div style="text-align:center; margin:1rem 0; color:#94a3b8;">— OR —</div>
+      
+      <!-- Paste link -->
+      <div class="form-group">
+        <label>Paste Link (Google Drive / YouTube / etc.)</label>
+        <input type="text" id="importUrl" placeholder="https://drive.google.com/file/d/... or any URL">
+        <div class="drive-hint">
+          <i class="fas fa-info-circle"></i> For Drive: share link. YouTube: video URL. Images: direct URL.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Section</label>
         <select id="importSection">
           <option value="photos">📷 Photos</option>
           <option value="videos">🎬 Videos</option>
@@ -213,22 +255,17 @@
           <option value="other">📄 Other Files</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Paste Google Drive / YouTube / Vimeo / Direct Link</label>
-        <input type="text" id="importUrl" placeholder="https://drive.google.com/file/d/... or any media URL">
-        <div class="drive-hint">
-          <i class="fas fa-info-circle"></i> For Drive: use share link. YouTube: paste video URL. Images: direct image URL.
-        </div>
-      </div>
+      
       <div class="preview-container" id="importPreviewContainer">
         <img id="importPreviewImage" alt="Preview" style="display:none;">
         <video id="importPreviewVideo" controls style="display:none;"></video>
         <iframe id="importPreviewIframe" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
       </div>
+      
       <div class="modal-actions">
         <button class="btn btn-outline" id="cancelImportBtn">Cancel</button>
         <button class="btn btn-primary" id="continueToDetailsBtn">
-          Continue to Details <i class="fas fa-arrow-right"></i>
+          Continue <i class="fas fa-arrow-right"></i>
         </button>
       </div>
     </div>
@@ -252,12 +289,11 @@
       <div class="form-group">
         <label>Platform / Source</label>
         <select id="detailPlatform">
+          <option value="Device Upload">Device Upload</option>
           <option value="Google Drive">Google Drive</option>
           <option value="YouTube">YouTube</option>
           <option value="Vimeo">Vimeo</option>
-          <option value="Direct Upload">Direct Upload</option>
-          <option value="Dropbox">Dropbox</option>
-          <option value="OneDrive">OneDrive</option>
+          <option value="Direct Link">Direct Link</option>
           <option value="Other">Other</option>
         </select>
       </div>
@@ -267,7 +303,7 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-outline" id="backToImportBtn"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="btn btn-success" id="saveDetailsBtn"><i class="fas fa-save"></i> Save to Portfolio</button>
+        <button class="btn btn-success" id="saveDetailsBtn"><i class="fas fa-save"></i> Save</button>
       </div>
     </div>
   </div>
@@ -296,24 +332,44 @@
   <script>
     (function() {
       // ============================================
-      // 🔧 CONFIGURE THESE 2 URLS BEFORE DEPLOYING
-      // ===============================YOUR=============
-      const SHEET_CSV_URL = '1BRIvEZN8bXUxYyio23lK9paK2WBybShbjXaozwOIgbI'; // Published CSV URL from Google Sheets
-      const APPS_SCRIPT_URL = '1fcPt1WMUCkq6ifo9-hxR05NOcHkNuQYKu2nSO0Bn3pOQvAUOubh4i0rD'; // Web App URL from Google Apps Script
+      // 🔧 CONFIGURATION
+      // ============================================
+      const SHEET_CSV_URL = 'YOUR_SHEET_CSV_URL_HERE';
+      const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
       
-      // Fallback to localStorage if URLs not configured
-      const USE_SHEETS = !SHEET_CSV_URL.includes('YOUR_SHEET_CSV_URL');
+      // Use localStorage if Sheets not configured
+      const USE_SHEETS = SHEET_CSV_URL && !SHEET_CSV_URL.includes('YOUR_SHEET_CSV_URL');
       
-      const STORAGE_KEY = 'hazime_nepal_butwal_final';
+      // Temporary storage for uploaded files (Base64)
+      const STORAGE_KEY = 'hazime_nepal_butwal_data';
+      const FILES_KEY = 'hazime_nepal_butwal_files';
+      
       let data = { categories: [], items: [] };
+      let uploadedFiles = {}; // Store base64 files
       let currentTab = 'photos';
-      let pendingImport = { section: 'photos', url: '' };
+      let pendingImport = { section: 'photos', url: '', fileData: null };
 
-      // Load data from Google Sheets or localStorage
+      // Show status message
+      function showStatus(message, type = 'success') {
+        const el = document.getElementById('statusMessage');
+        el.textContent = message;
+        el.className = `status-message status-${type}`;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 3000);
+      }
+
+      // Load data
       async function loadData() {
+        showLoading('Loading media...');
+        
+        // Load files from localStorage
+        const filesStr = localStorage.getItem(FILES_KEY);
+        uploadedFiles = filesStr ? JSON.parse(filesStr) : {};
+        
         if (USE_SHEETS) {
           try {
             const response = await fetch(SHEET_CSV_URL);
+            if (!response.ok) throw new Error('Failed to fetch');
             const csvText = await response.text();
             const rows = csvText.split('\n').slice(1);
             
@@ -329,57 +385,56 @@
                 thumbnail: cols[6]?.trim() || null,
                 platform: cols[7]?.trim() || 'Google Drive',
                 category: cols[8]?.trim() || '',
-                description: cols[9]?.trim() || ''
+                description: cols[9]?.trim() || '',
+                isLocalFile: cols[10]?.trim() === 'true'
               };
             });
 
-            // Extract unique categories
+            // Merge with local files
+            data.items = data.items.map(item => {
+              if (item.isLocalFile && uploadedFiles[item.id]) {
+                item.url = uploadedFiles[item.id];
+                item.downloadUrl = uploadedFiles[item.id];
+                item.thumbnail = uploadedFiles[item.id];
+              }
+              return item;
+            });
+
             const cats = new Set(data.items.map(i => i.category).filter(Boolean));
             data.categories = Array.from(cats);
-            
-            // Backup to localStorage
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            showStatus('✅ Data loaded from database', 'success');
           } catch (error) {
-            console.error('Error loading from Sheets, using localStorage:', error);
+            console.error('Error loading from Sheets:', error);
             loadFromLocalStorage();
+            showStatus('⚠️ Using local storage', 'error');
           }
         } else {
           loadFromLocalStorage();
+          showStatus('📁 Using local storage (configure Sheets for multi-device)', 'success');
         }
+        
+        hideLoading();
         renderGallery();
       }
 
       function loadFromLocalStorage() {
         const s = localStorage.getItem(STORAGE_KEY);
         data = s ? JSON.parse(s) : { categories: [], items: [] };
+        
+        // Restore local file URLs
+        data.items = data.items.map(item => {
+          if (item.isLocalFile && uploadedFiles[item.id]) {
+            item.url = uploadedFiles[item.id];
+            item.downloadUrl = uploadedFiles[item.id];
+            item.thumbnail = uploadedFiles[item.id];
+          }
+          return item;
+        });
       }
 
-      // Save to Google Sheets
-      async function saveToSheets(item) {
-        if (!USE_SHEETS) {
-          // Fallback to localStorage only
-          data.items.push(item);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-          return true;
-        }
-
-        try {
-          const response = await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(item)
-          });
-          const result = await response.json();
-          return result.success;
-        } catch (error) {
-          console.error('Error saving to Sheets:', error);
-          // Fallback to localStorage
-          data.items.push(item);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-          return true;
-        }
-      }
-
-      function showLoading() {
+      function showLoading(text = 'Loading...') {
+        document.getElementById('loadingText').textContent = text;
         document.getElementById('loadingOverlay').classList.add('active');
       }
 
@@ -387,7 +442,7 @@
         document.getElementById('loadingOverlay').classList.remove('active');
       }
 
-      // DOM
+      // DOM Elements
       const gallery = document.getElementById('galleryContainer');
       const importModal = document.getElementById('importModal');
       const detailsModal = document.getElementById('detailsModal');
@@ -399,6 +454,85 @@
       const importPreviewVideo = document.getElementById('importPreviewVideo');
       const importPreviewIframe = document.getElementById('importPreviewIframe');
 
+      // File upload handling
+      const uploadArea = document.getElementById('uploadArea');
+      const fileInput = document.getElementById('fileInput');
+
+      uploadArea.addEventListener('click', () => fileInput.click());
+      
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#0b2b4f';
+        uploadArea.style.background = '#f1f5ff';
+      });
+      
+      uploadArea.addEventListener('dragleave', () => {
+        uploadArea.style.borderColor = '#dce3ec';
+        uploadArea.style.background = '#fafbfc';
+      });
+      
+      uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#dce3ec';
+        uploadArea.style.background = '#fafbfc';
+        handleFiles(e.dataTransfer.files);
+      });
+      
+      fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+      function handleFiles(files) {
+        if (!files || files.length === 0) return;
+        
+        const file = files[0];
+        const reader = new FileReader();
+        
+        showLoading('Reading file...');
+        
+        reader.onload = function(e) {
+          const base64 = e.target.result;
+          pendingImport.fileData = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            base64: base64
+          };
+          pendingImport.url = base64;
+          
+          // Auto-detect section
+          if (file.type.startsWith('image/')) {
+            importSection.value = 'photos';
+          } else if (file.type.startsWith('video/')) {
+            importSection.value = 'videos';
+          } else {
+            importSection.value = 'other';
+          }
+          
+          // Show preview
+          hideAllPreviews();
+          if (file.type.startsWith('image/')) {
+            importPreviewImage.src = base64;
+            importPreviewImage.style.display = 'block';
+            importPreviewContainer.classList.add('active');
+          } else if (file.type.startsWith('video/')) {
+            importPreviewVideo.src = base64;
+            importPreviewVideo.style.display = 'block';
+            importPreviewContainer.classList.add('active');
+          }
+          
+          importUrl.value = `📁 ${file.name} (${formatFileSize(file.size)})`;
+          hideLoading();
+          showStatus('✅ File ready!', 'success');
+        };
+        
+        reader.readAsDataURL(file);
+      }
+
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / 1048576).toFixed(1) + ' MB';
+      }
+
       function hideAllPreviews() {
         importPreviewImage.style.display = 'none';
         importPreviewVideo.style.display = 'none';
@@ -408,7 +542,7 @@
 
       function updatePreview(url) {
         hideAllPreviews();
-        if (!url) return;
+        if (!url || url.startsWith('📁')) return;
 
         const driveInfo = convertDriveLink(url);
         const ytInfo = convertYoutubeLink(url);
@@ -439,9 +573,11 @@
 
       importUrl.addEventListener('input', () => {
         const url = importUrl.value.trim();
-        updatePreview(url);
-        const detected = detectSectionFromUrl(url);
-        importSection.value = detected;
+        if (!url.startsWith('📁')) {
+          updatePreview(url);
+          const detected = detectSectionFromUrl(url);
+          importSection.value = detected;
+        }
       });
 
       function detectSectionFromUrl(url) {
@@ -504,10 +640,10 @@
         if (items.length === 0) {
           const icons = { photos: 'fa-camera-retro', videos: 'fa-video', designs: 'fa-palette', other: 'fa-file-alt' };
           const msgs = {
-            photos: 'No photos yet. Import from Google Drive or add image links.',
-            videos: 'No videos yet. Import from Drive, YouTube, or Vimeo.',
-            designs: 'No designs yet. Add links to your design files.',
-            other: 'No files yet. Add any other media links.'
+            photos: 'No photos yet. Upload files or add links.',
+            videos: 'No videos yet. Upload or add links.',
+            designs: 'No designs yet. Add links to your work.',
+            other: 'No files yet. Add any media.'
           };
           gallery.innerHTML = `<div class="empty-state"><i class="fas ${icons[currentTab]}"></i><p>${msgs[currentTab]}</p></div>`;
           return;
@@ -515,19 +651,29 @@
 
         gallery.innerHTML = items.map(item => {
           let mediaHtml = '';
+          const displayUrl = item.url || '';
+          
           if (item.section === 'photos') {
-            mediaHtml = `<img src="${item.thumbnail || item.url}" alt="${item.name}" loading="lazy"
+            mediaHtml = `<img src="${displayUrl}" alt="${item.name}" loading="lazy"
                          onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Image';">`;
           } else if (item.section === 'videos') {
             if (item.embedUrl) {
               mediaHtml = `<iframe src="${item.embedUrl}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
             } else {
-              mediaHtml = `<video controls src="${item.url}" preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>`;
+              mediaHtml = `<video controls src="${displayUrl}" preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>`;
             }
           } else if (item.section === 'designs') {
-            mediaHtml = `<div class="design-preview"><i class="fas fa-palette"></i><a href="${item.url}" target="_blank">🔗 Open Design</a></div>`;
+            if (displayUrl.startsWith('http')) {
+              mediaHtml = `<div class="design-preview"><i class="fas fa-palette"></i><a href="${displayUrl}" target="_blank">🔗 Open Design</a></div>`;
+            } else {
+              mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${displayUrl}" download="${item.name}">📥 Download File</a></div>`;
+            }
           } else {
-            mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${item.url}" target="_blank">📥 View File</a></div>`;
+            if (displayUrl.startsWith('http')) {
+              mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${displayUrl}" target="_blank">📥 View File</a></div>`;
+            } else {
+              mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${displayUrl}" download="${item.name}">📥 Download File</a></div>`;
+            }
           }
 
           return `
@@ -537,15 +683,15 @@
                 <div class="card-info">
                   <div class="item-name" title="${item.name}">${item.name || 'Untitled'}</div>
                   <div class="item-meta">
-                    <span class="platform-badge">${item.platform || 'Drive'}</span>
+                    <span class="platform-badge">${item.platform || 'File'}</span>
                     ${item.category ? `<span class="category-tag">📁 ${item.category}</span>` : ''}
                   </div>
                 </div>
                 <div class="card-actions">
-                  <button class="icon-btn copy-btn" data-url="${item.downloadUrl || item.url}" title="Copy link">
+                  <button class="icon-btn copy-btn" data-url="${displayUrl}" title="Copy link">
                     <i class="fas fa-copy"></i>
                   </button>
-                  <button class="icon-btn download-btn" data-url="${item.downloadUrl || item.url}" title="Download Original">
+                  <button class="icon-btn download-btn" data-url="${displayUrl}" data-filename="${item.name}" title="Download">
                     <i class="fas fa-download"></i> DL
                   </button>
                   <button class="icon-btn delete-btn" data-id="${item.id}" title="Delete">
@@ -556,76 +702,119 @@
             </div>`;
         }).join('');
 
-        document.querySelectorAll('.copy-btn').forEach(b => b.addEventListener('click', () => {
-          navigator.clipboard.writeText(b.dataset.url).then(() => alert('📋 Link copied!'));
-        }));
-        document.querySelectorAll('.download-btn').forEach(b => b.addEventListener('click', () => {
-          window.open(b.dataset.url, '_blank');
-        }));
-        document.querySelectorAll('.delete-btn').forEach(b => b.addEventListener('click', async () => {
-          if(confirm('Delete this item?')) {
-            data.items = data.items.filter(i => i.id !== b.dataset.id);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            if (USE_SHEETS) await loadData(); // Reload from sheets
-            renderGallery();
-          }
-        }));
+        // Event listeners
+        document.querySelectorAll('.copy-btn').forEach(b => {
+          b.addEventListener('click', () => {
+            const url = b.dataset.url;
+            if (url.startsWith('data:')) {
+              navigator.clipboard.writeText('Local file - use Download button').then(() => 
+                showStatus('📋 Use Download button to save file', 'success'));
+            } else {
+              navigator.clipboard.writeText(url).then(() => showStatus('📋 Link copied!', 'success'));
+            }
+          });
+        });
+        
+        document.querySelectorAll('.download-btn').forEach(b => {
+          b.addEventListener('click', () => {
+            const url = b.dataset.url;
+            const filename = b.dataset.filename || 'download';
+            if (url.startsWith('data:')) {
+              // Download base64 file
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = filename;
+              link.click();
+              showStatus('⬇️ Downloading...', 'success');
+            } else {
+              window.open(url, '_blank');
+            }
+          });
+        });
+        
+        document.querySelectorAll('.delete-btn').forEach(b => {
+          b.addEventListener('click', async () => {
+            if(confirm('Delete this item?')) {
+              const id = b.dataset.id;
+              data.items = data.items.filter(i => i.id !== id);
+              if (uploadedFiles[id]) {
+                delete uploadedFiles[id];
+                localStorage.setItem(FILES_KEY, JSON.stringify(uploadedFiles));
+              }
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+              renderGallery();
+              showStatus('🗑️ Item deleted', 'success');
+            }
+          });
+        });
       }
 
       function openImportModal() {
         importSection.value = currentTab;
         importUrl.value = '';
+        pendingImport = { section: currentTab, url: '', fileData: null };
         hideAllPreviews();
+        fileInput.value = '';
         importModal.classList.add('active');
       }
 
       function continueToDetails() {
-        const url = importUrl.value.trim();
-        if (!url) { alert('Please paste a media URL.'); return; }
-
-        const section = importSection.value;
-        const detected = detectSectionFromUrl(url);
-
-        if (detected !== section && detected !== 'other') {
-          const names = { photos: 'Photos', videos: 'Videos', designs: 'Designs', other: 'Other' };
-          if (confirm(`This looks like it belongs in "${names[detected]}". Switch to that section?`)) {
-            pendingImport.section = detected;
-          } else {
-            pendingImport.section = section;
-          }
-        } else {
-          pendingImport.section = section;
+        const urlValue = importUrl.value.trim();
+        const hasFile = pendingImport.fileData !== null;
+        
+        if (!hasFile && !urlValue) {
+          showStatus('⚠️ Please upload a file or paste a link', 'error');
+          return;
         }
 
-        pendingImport.url = url;
-        const driveInfo = convertDriveLink(url);
-        const ytInfo = convertYoutubeLink(url);
-        const vimeoInfo = convertVimeoLink(url);
+        if (!hasFile && urlValue.startsWith('📁')) {
+          showStatus('⚠️ Please upload a file first', 'error');
+          return;
+        }
 
-        if (driveInfo) {
-          pendingImport.directView = driveInfo.directView;
-          pendingImport.directDownload = driveInfo.directDownload;
-          pendingImport.embedUrl = driveInfo.embed;
-          pendingImport.thumbnail = driveInfo.thumbnail;
-          pendingImport.platform = 'Google Drive';
-        } else if (ytInfo) {
-          pendingImport.embedUrl = ytInfo.embed;
-          pendingImport.thumbnail = ytInfo.thumbnail;
-          pendingImport.directDownload = url;
-          pendingImport.platform = 'YouTube';
-        } else if (vimeoInfo) {
-          pendingImport.embedUrl = vimeoInfo.embed;
-          pendingImport.directDownload = url;
-          pendingImport.platform = 'Vimeo';
+        pendingImport.section = importSection.value;
+
+        if (hasFile) {
+          // File upload - use base64 data
+          pendingImport.url = pendingImport.fileData.base64;
+          pendingImport.directView = pendingImport.fileData.base64;
+          pendingImport.directDownload = pendingImport.fileData.base64;
+          pendingImport.thumbnail = pendingImport.fileData.base64;
+          pendingImport.platform = 'Device Upload';
+          pendingImport.isLocalFile = true;
         } else {
-          pendingImport.directView = url;
-          pendingImport.directDownload = url;
-          pendingImport.thumbnail = url;
-          pendingImport.platform = 'Direct Link';
+          // URL-based
+          pendingImport.url = urlValue;
+          const driveInfo = convertDriveLink(urlValue);
+          const ytInfo = convertYoutubeLink(urlValue);
+          const vimeoInfo = convertVimeoLink(urlValue);
+
+          if (driveInfo) {
+            pendingImport.directView = driveInfo.directView;
+            pendingImport.directDownload = driveInfo.directDownload;
+            pendingImport.embedUrl = driveInfo.embed;
+            pendingImport.thumbnail = driveInfo.thumbnail;
+            pendingImport.platform = 'Google Drive';
+          } else if (ytInfo) {
+            pendingImport.embedUrl = ytInfo.embed;
+            pendingImport.thumbnail = ytInfo.thumbnail;
+            pendingImport.directDownload = urlValue;
+            pendingImport.platform = 'YouTube';
+          } else if (vimeoInfo) {
+            pendingImport.embedUrl = vimeoInfo.embed;
+            pendingImport.directDownload = urlValue;
+            pendingImport.platform = 'Vimeo';
+          } else {
+            pendingImport.directView = urlValue;
+            pendingImport.directDownload = urlValue;
+            pendingImport.thumbnail = urlValue;
+            pendingImport.platform = 'Direct Link';
+          }
+          pendingImport.isLocalFile = false;
         }
 
         importModal.classList.remove('active');
-        document.getElementById('detailName').value = '';
+        document.getElementById('detailName').value = pendingImport.fileData ? pendingImport.fileData.name.replace(/\.[^/.]+$/, "") : '';
         document.getElementById('detailCategory').value = '';
         document.getElementById('detailNewCategory').value = '';
         document.getElementById('detailPlatform').value = pendingImport.platform;
@@ -636,7 +825,7 @@
 
       async function saveDetails() {
         const name = document.getElementById('detailName').value.trim();
-        if (!name) { alert('Please enter a name.'); return; }
+        if (!name) { showStatus('⚠️ Please enter a name', 'error'); return; }
 
         let category = document.getElementById('detailCategory').value;
         const newCat = document.getElementById('detailNewCategory').value.trim();
@@ -647,8 +836,10 @@
           category = newCat;
         }
 
+        const itemId = Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+        
         const newItem = {
-          id: Date.now().toString(36) + Math.random().toString(36).substr(2, 6),
+          id: itemId,
           section: pendingImport.section,
           name,
           url: pendingImport.directView || pendingImport.url,
@@ -657,28 +848,47 @@
           thumbnail: pendingImport.thumbnail || '',
           platform: document.getElementById('detailPlatform').value,
           category,
-          description: document.getElementById('detailDescription').value.trim()
+          description: document.getElementById('detailDescription').value.trim(),
+          isLocalFile: pendingImport.isLocalFile || false
         };
 
-        showLoading();
-        const success = await saveToSheets(newItem);
-        hideLoading();
+        showLoading('Saving...');
 
-        if (success) {
-          detailsModal.classList.remove('active');
-          currentTab = pendingImport.section;
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          document.querySelector(`.tab[data-tab="${pendingImport.section}"]`).classList.add('active');
-          pendingImport = { section: 'photos', url: '' };
-          
-          if (USE_SHEETS) {
-            await loadData(); // Reload from Sheets
-          }
-          renderGallery();
-          alert('✅ Media saved successfully!');
-        } else {
-          alert('❌ Error saving. Please try again.');
+        // Save file data if uploaded from device
+        if (pendingImport.isLocalFile && pendingImport.fileData) {
+          uploadedFiles[itemId] = pendingImport.fileData.base64;
+          localStorage.setItem(FILES_KEY, JSON.stringify(uploadedFiles));
         }
+
+        // Save to local storage always
+        data.items.push(newItem);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+        // Try saving to Google Sheets if configured
+        if (USE_SHEETS && !pendingImport.isLocalFile) {
+          try {
+            await fetch(APPS_SCRIPT_URL, {
+              method: 'POST',
+              body: JSON.stringify(newItem)
+            });
+            showStatus('✅ Saved to database! Visible on all devices.', 'success');
+          } catch (error) {
+            console.error('Sheets save error:', error);
+            showStatus('⚠️ Saved locally only. Sheets not available.', 'error');
+          }
+        } else if (pendingImport.isLocalFile) {
+          showStatus('💾 File saved locally. Upload to Drive for multi-device access.', 'success');
+        } else {
+          showStatus('💾 Saved locally. Configure Sheets for cloud sync.', 'success');
+        }
+
+        hideLoading();
+        detailsModal.classList.remove('active');
+        currentTab = pendingImport.section;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab[data-tab="${pendingImport.section}"]`).classList.add('active');
+        pendingImport = { section: 'photos', url: '', fileData: null };
+        renderGallery();
       }
 
       // Tab switching
@@ -700,15 +910,10 @@
         importModal.classList.add('active');
       });
       document.getElementById('saveDetailsBtn').addEventListener('click', saveDetails);
-      document.getElementById('refreshBtn').addEventListener('click', async () => {
-        if (USE_SHEETS) {
-          showLoading();
-          await loadData();
-          hideLoading();
-          renderGallery();
-          alert('✅ Data refreshed from database!');
-        }
+      document.getElementById('refreshBtn').addEventListener('click', () => {
+        loadData().then(() => showStatus('🔄 Refreshed!', 'success'));
       });
+      
       document.getElementById('manageCategoriesBtn').addEventListener('click', () => {
         const list = document.getElementById('categoryList');
         list.innerHTML = data.categories.map(c =>
@@ -724,7 +929,7 @@
               data.categories = data.categories.filter(c => c !== cat);
               data.items.forEach(i => { if(i.category === cat) i.category = ''; });
               localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-              document.getElementById('manageCategoriesBtn').click(); // Refresh list
+              document.getElementById('manageCategoriesBtn').click();
               populateCategoryDropdowns();
             }
           });
@@ -735,7 +940,7 @@
       document.getElementById('addCategoryBtn').addEventListener('click', () => {
         const cat = document.getElementById('newCategoryInput').value.trim();
         if (!cat) return;
-        if (data.categories.includes(cat)) { alert('Already exists.'); return; }
+        if (data.categories.includes(cat)) { showStatus('⚠️ Already exists', 'error'); return; }
         data.categories.push(cat);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         document.getElementById('newCategoryInput').value = '';
@@ -743,6 +948,7 @@
         populateCategoryDropdowns();
       });
 
+      // Close modals on overlay click
       [importModal, detailsModal, categoryModal].forEach(m => {
         m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('active'); });
       });
@@ -751,6 +957,10 @@
       loadData().then(() => {
         populateCategoryDropdowns();
         updateTabCounts();
+        console.log('✅ Hazime Nepal Butwal - Portfolio Ready');
+        console.log('📁 Upload files from device or paste links');
+        console.log('💾 Data saved in browser storage');
+        if (USE_SHEETS) console.log('☁️ Google Sheets sync enabled');
       });
     })();
   </script>
