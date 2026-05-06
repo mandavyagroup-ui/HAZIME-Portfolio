@@ -26,17 +26,15 @@
       border-radius: 16px; display: flex; align-items: center; justify-content: center;
       font-size: 1.6rem; flex-shrink: 0;
     }
-    .brand h1 { font-size: 1.7rem; font-weight: 700; color: #0b1e33; line-height: 1.2; }
+    .brand h1 { font-size: 1.7rem; font-weight: 700; color: #0b1e33; }
     .brand span { font-size: 0.85rem; color: #5f6b7a; display: block; }
-    .header-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+    .header-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
     .btn {
       padding: 0.65rem 1.4rem; border-radius: 2.5rem; font-weight: 600; font-size: 0.85rem;
       border: 1px solid #dce3ec; background: white; cursor: pointer;
       display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s;
-      white-space: nowrap;
     }
-    .btn i { font-size: 0.9rem; }
     .btn-primary { background: #0b2b4f; color: white; border-color: #0b2b4f; }
     .btn-primary:hover { background: #123d63; }
     .btn-outline:hover { background: #f1f5ff; border-color: #0b2b4f; }
@@ -50,23 +48,20 @@
       color: #475569; display: flex; align-items: center; gap: 0.5rem;
     }
     .tab.active { background: #0b2b4f; color: white; border-color: #0b2b4f; }
-    .tab .count {
-      background: rgba(0,0,0,0.08); padding: 0.15rem 0.55rem;
-      border-radius: 1rem; font-size: 0.7rem; font-weight: 600;
-    }
+    .tab .count { background: rgba(0,0,0,0.08); padding: 0.15rem 0.55rem; border-radius: 1rem; font-size: 0.7rem; }
     .tab.active .count { background: rgba(255,255,255,0.25); }
 
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.7rem; }
     .card {
       background: white; border-radius: 1.8rem; overflow: hidden;
       box-shadow: 0 15px 28px -10px rgba(0,0,0,0.07); transition: 0.25s;
-      border: 1px solid #eef2f8; display: flex; flex-direction: column;
+      border: 1px solid #eef2f8;
     }
     .card:hover { transform: translateY(-3px); box-shadow: 0 22px 34px -12px rgba(0,20,40,0.14); }
 
     .media-frame {
       width: 100%; aspect-ratio: 16/9; background: #edf2f9;
-      display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
     .media-frame img, .media-frame video { width: 100%; height: 100%; object-fit: cover; }
     .media-frame iframe { width: 100%; height: 100%; border: 0; }
@@ -74,36 +69,32 @@
     .design-preview {
       background: linear-gradient(135deg, #eef2ff, #f9fafc);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.8rem; width: 100%; height: 100%; padding: 1rem;
+      gap: 0.5rem; width: 100%; height: 100%;
     }
-    .design-preview i { font-size: 2.8rem; color: #0b2b4f; }
-    .design-preview a { color: #0b2b4f; font-weight: 600; text-decoration: underline; font-size: 0.9rem; }
+    .design-preview i { font-size: 2.5rem; color: #0b2b4f; }
+    .design-preview a { color: #0b2b4f; font-weight: 600; }
 
     .card-body {
       padding: 1rem 1.2rem; display: flex; justify-content: space-between;
-      align-items: center; flex-wrap: wrap; gap: 0.7rem;
+      align-items: center; flex-wrap: wrap; gap: 0.5rem;
     }
     .card-info { flex: 1; min-width: 0; }
-    .item-name {
-      font-weight: 650; font-size: 0.95rem;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
+    .item-name { font-weight: 650; font-size: 0.95rem; }
     .item-meta { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.2rem; }
     .platform-badge {
       background: #e9eff9; color: #0b2b4f; font-size: 0.68rem;
       padding: 0.2rem 0.6rem; border-radius: 1rem; font-weight: 600;
     }
     .category-tag { font-size: 0.7rem; color: #64748b; }
-    .card-actions { display: flex; gap: 0.3rem; flex-shrink: 0; }
+    .card-actions { display: flex; gap: 0.3rem; }
     .icon-btn {
       background: #f8fafc; border: 1px solid #dce3ec; border-radius: 2rem;
       padding: 0.4rem 0.7rem; cursor: pointer; font-size: 0.8rem;
       display: flex; align-items: center; gap: 0.3rem; transition: 0.2s; color: #334155;
     }
     .icon-btn:hover { background: #eef2ff; }
-    .icon-btn.download-btn { background: #0b2b4f; color: white; border-color: #0b2b4f; }
-    .icon-btn.download-btn:hover { background: #123d63; }
-    .icon-btn.delete-btn:hover { background: #fef2f2; color: #b91c1c; }
+    .icon-btn.dl-btn { background: #0b2b4f; color: white; border-color: #0b2b4f; }
+    .icon-btn.dl-btn:hover { background: #123d63; }
 
     .empty-state { text-align: center; padding: 3rem; color: #64748b; grid-column: 1/-1; }
     .empty-state i { font-size: 2.5rem; opacity: 0.5; margin-bottom: 0.8rem; display: block; }
@@ -111,73 +102,58 @@
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-      display: none; align-items: center; justify-content: center; z-index: 1000;
+      z-index: 1000; display: none; align-items: center; justify-content: center;
     }
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.show { display: flex; }
     .modal {
       background: white; border-radius: 2rem; padding: 2rem; width: 90%;
-      max-width: 600px; box-shadow: 0 30px 45px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;
+      max-width: 580px; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 45px rgba(0,0,0,0.2);
     }
-    .modal h3 { margin-bottom: 1.5rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
-    .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
-    .form-group label {
-      font-weight: 600; font-size: 0.8rem; color: #475569;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
+    .modal h3 { margin-bottom: 1.5rem; font-size: 1.2rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { font-weight: 600; font-size: 0.8rem; color: #475569; display: block; margin-bottom: 0.3rem; }
     .form-group input, .form-group select {
-      padding: 0.75rem 1rem; border-radius: 2rem; border: 1px solid #dce3ec;
+      width: 100%; padding: 0.75rem 1rem; border-radius: 2rem; border: 1px solid #dce3ec;
       background: #fafbfc; font-size: 0.9rem;
     }
 
-    /* UPLOAD BOX THAT SHOWS PREVIEW INSIDE */
     .upload-box {
-      border: 2px dashed #dce3ec; border-radius: 1.5rem; 
-      min-height: 200px; cursor: pointer; transition: 0.3s; 
-      background: #fafbfc; overflow: hidden; position: relative;
+      border: 2px dashed #dce3ec; border-radius: 1.5rem; min-height: 180px;
+      cursor: pointer; transition: 0.3s; background: #fafbfc; position: relative; overflow: hidden;
     }
-    .upload-box:hover { border-color: #0b2b4f; background: #f1f5ff; }
-    .upload-box.has-media { border-style: solid; border-color: #0b2b4f; padding: 0; }
-    
+    .upload-box:hover { border-color: #0b2b4f; }
+    .upload-box.filled { border-style: solid; border-color: #0b2b4f; }
     .upload-placeholder {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 2rem; text-align: center; height: 100%; min-height: 200px;
+      padding: 2rem; height: 100%; min-height: 180px;
     }
-    .upload-box.has-media .upload-placeholder { display: none; }
-    
+    .upload-box.filled .upload-placeholder { display: none; }
     .upload-placeholder i { font-size: 2.5rem; color: #0b2b4f; margin-bottom: 0.5rem; }
-    .upload-placeholder .filename { font-weight: 600; color: #0b2b4f; margin-top: 0.5rem; }
-    
     .upload-preview {
-      display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+      display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     }
-    .upload-box.has-media .upload-preview { display: block; }
+    .upload-box.filled .upload-preview { display: block; }
     .upload-preview img, .upload-preview video { width: 100%; height: 100%; object-fit: cover; }
     .upload-preview iframe { width: 100%; height: 100%; border: 0; }
-    
-    .change-media-btn {
-      position: absolute; bottom: 10px; right: 10px; z-index: 10;
+    .change-btn {
+      position: absolute; top: 8px; right: 8px; z-index: 5;
       background: rgba(0,0,0,0.7); color: white; border: none;
-      padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.75rem;
-      cursor: pointer; display: none;
+      padding: 0.3rem 0.7rem; border-radius: 1rem; font-size: 0.7rem; cursor: pointer;
+      display: none;
     }
-    .upload-box.has-media .change-media-btn { display: block; }
+    .upload-box.filled .change-btn { display: block; }
 
-    .divider-text { text-align: center; margin: 1rem 0; color: #94a3b8; font-size: 0.85rem; position: relative; }
-    .divider-text::before, .divider-text::after {
-      content: ''; position: absolute; top: 50%; width: 35%; height: 1px; background: #e2e8f0;
-    }
-    .divider-text::before { left: 0; }
-    .divider-text::after { right: 0; }
-    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; flex-wrap: wrap; }
+    .divider { text-align: center; margin: 1rem 0; color: #94a3b8; font-size: 0.85rem; }
+    .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem; }
 
-    .status-msg {
+    .toast {
       position: fixed; bottom: 20px; right: 20px; padding: 1rem 1.5rem;
       border-radius: 2rem; color: white; font-weight: 600; z-index: 3000;
-      animation: slideIn 0.3s ease; max-width: 90%;
+      animation: slideIn 0.3s;
     }
-    @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    .status-ok { background: #10b981; }
-    .status-err { background: #ef4444; }
+    @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } }
+    .toast-ok { background: #10b981; }
+    .toast-err { background: #ef4444; }
   </style>
 </head>
 <body>
@@ -185,519 +161,349 @@
     <header class="header">
       <div class="brand">
         <div class="brand-logo"><i class="fas fa-mountain"></i></div>
-        <div>
-          <h1>Hazime Nepal</h1>
-          <span>Butwal · media portfolio</span>
-        </div>
+        <div><h1>Hazime Nepal</h1><span>Butwal · media portfolio</span></div>
       </div>
       <div class="header-actions">
-        <button class="btn btn-outline" onclick="refreshData()">
-          <i class="fas fa-sync-alt"></i> Refresh
-        </button>
-        <button class="btn btn-primary" onclick="openAddModal()">
-          <i class="fas fa-plus-circle"></i> Add Media
-        </button>
+        <button class="btn btn-outline" id="refreshBtn"><i class="fas fa-sync-alt"></i> Sync</button>
+        <button class="btn btn-primary" id="addBtn"><i class="fas fa-plus-circle"></i> Add Media</button>
       </div>
     </header>
 
-    <div class="tabs">
-      <div class="tab active" data-tab="photos" onclick="switchTab('photos')">
-        <i class="fas fa-camera-retro"></i> Photos <span class="count" id="photosCount">0</span>
-      </div>
-      <div class="tab" data-tab="videos" onclick="switchTab('videos')">
-        <i class="fas fa-video"></i> Videos <span class="count" id="videosCount">0</span>
-      </div>
-      <div class="tab" data-tab="designs" onclick="switchTab('designs')">
-        <i class="fas fa-palette"></i> Designs/Links <span class="count" id="designsCount">0</span>
-      </div>
-      <div class="tab" data-tab="other" onclick="switchTab('other')">
-        <i class="fas fa-file-alt"></i> Other <span class="count" id="otherCount">0</span>
-      </div>
+    <div class="tabs" id="tabsContainer">
+      <div class="tab active" data-tab="photos"><i class="fas fa-camera-retro"></i> Photos <span class="count">0</span></div>
+      <div class="tab" data-tab="videos"><i class="fas fa-video"></i> Videos <span class="count">0</span></div>
+      <div class="tab" data-tab="designs"><i class="fas fa-palette"></i> Designs/Links <span class="count">0</span></div>
+      <div class="tab" data-tab="other"><i class="fas fa-file-alt"></i> Other <span class="count">0</span></div>
     </div>
 
-    <div class="gallery-grid" id="galleryContainer"></div>
+    <div class="gallery-grid" id="gallery"></div>
   </div>
 
-  <!-- Add Media Modal -->
-  <div class="modal-overlay" id="addModal">
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal">
     <div class="modal">
       <h3><i class="fas fa-plus-circle"></i> Add Media</h3>
 
-      <!-- UPLOAD BOX WITH PREVIEW INSIDE -->
       <div class="upload-box" id="uploadBox">
         <div class="upload-placeholder">
           <i class="fas fa-cloud-upload-alt"></i>
-          <p><strong>Click or drag file here</strong></p>
-          <small style="color:#64748b;">Upload from your device</small>
-          <p class="filename" id="uploadedFileName"></p>
+          <p><strong>Click or drag file</strong></p>
+          <small>or paste link below</small>
+          <p id="fileNameDisplay" style="color:#0b2b4f;font-weight:600;margin-top:0.3rem;"></p>
         </div>
-        <div class="upload-preview" id="uploadPreview">
-          <img id="previewImage" style="display:none;">
-          <video id="previewVideo" controls style="display:none;"></video>
-          <iframe id="previewIframe" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <div class="upload-preview">
+          <img id="prevImg" style="display:none;">
+          <video id="prevVid" controls style="display:none;"></video>
+          <iframe id="prevIframe" style="display:none;" allowfullscreen></iframe>
         </div>
-        <button class="change-media-btn" onclick="resetUpload()">✕ Change</button>
+        <button class="change-btn" id="changeBtn">✕ Remove</button>
       </div>
-      <input type="file" id="fileInput" style="display:none;" accept="image/*,video/*,.pdf,.zip">
+      <input type="file" id="fileInput" hidden accept="image/*,video/*">
 
-      <div class="divider-text">OR paste a link below</div>
+      <div class="divider">— OR paste link —</div>
 
       <div class="form-group">
-        <label>Paste Link (Google Drive, YouTube, direct URL)</label>
-        <input type="text" id="mediaUrlInput" placeholder="https://drive.google.com/file/d/...">
+        <label>Media Link</label>
+        <input type="text" id="linkInput" placeholder="https://drive.google.com/file/d/...">
       </div>
-
       <div class="form-group">
         <label>Name *</label>
-        <input type="text" id="mediaName" placeholder="e.g., Butwal Sunset">
+        <input type="text" id="nameInput" placeholder="Item name">
       </div>
-
       <div class="form-group">
         <label>Section</label>
-        <select id="mediaSection">
+        <select id="sectionSelect">
           <option value="photos">📷 Photos</option>
           <option value="videos">🎬 Videos</option>
-          <option value="designs">🎨 Designs / Links</option>
-          <option value="other">📄 Other Files</option>
+          <option value="designs">🎨 Designs</option>
+          <option value="other">📄 Other</option>
         </select>
       </div>
-
       <div class="form-group">
-        <label>Category (optional)</label>
-        <input type="text" id="mediaCategory" placeholder="e.g., Nature, Events, Portraits">
+        <label>Category</label>
+        <input type="text" id="catInput" placeholder="e.g., Nature">
       </div>
-
       <div class="modal-actions">
-        <button class="btn btn-outline" onclick="closeAddModal()">Cancel</button>
-        <button class="btn btn-success" id="saveBtn" onclick="saveMedia()">
-          <i class="fas fa-save"></i> Save Media
-        </button>
+        <button class="btn btn-outline" id="cancelBtn">Cancel</button>
+        <button class="btn btn-success" id="saveBtn"><i class="fas fa-check"></i> Save</button>
       </div>
     </div>
   </div>
 
-  <div id="statusMsg" class="status-msg" style="display:none;"></div>
+  <div id="toast" class="toast" style="display:none;"></div>
 
   <script>
-    // ============================================
-    // CONFIGURATION
-    // ============================================
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT5PiOx2fH1UxOivvGIlo12k0j4MVNWUp47ZL0KEtc1oJ3M8WObdBoHcbbcmKXJ4bZnH04HghDNx7wQ/pub?output=csv';
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTCQLCTWLNRplbwzQJyTakLjxG5gpKTGv_-pRubMFsHD7mrk3N44n9FiQy4t6GDar7/exec';
+    (() => {
+      // CONFIG
+      const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT5PiOx2fH1UxOivvGIlo12k0j4MVNWUp47ZL0KEtc1oJ3M8WObdBoHcbbcmKXJ4bZnH04HghDNx7wQ/pub?output=csv';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTCQLCTWLNRplbwzQJyTakLjxG5gpKTGv_-pRubMFsHD7mrk3N44n9FiQy4t6GDar7/exec';
+      const LK = 'hzb_data';
 
-    const STORE_KEY = 'hazime_portfolio_data';
-    let items = [];
-    let currentTab = 'photos';
-    let pendingFileData = null; // base64 data
-    let pendingFileType = null; // 'image', 'video', 'other'
+      let items = [], tab = 'photos', fileData = null, fileType = null;
 
-    function showStatus(msg, ok = true) {
-      const el = document.getElementById('statusMsg');
-      el.textContent = msg;
-      el.className = 'status-msg ' + (ok ? 'status-ok' : 'status-err');
-      el.style.display = 'block';
-      clearTimeout(el._timeout);
-      el._timeout = setTimeout(() => el.style.display = 'none', 3000);
-    }
+      // Toast
+      const toast = (m, ok = true) => {
+        const t = document.getElementById('toast');
+        t.textContent = m; t.className = 'toast ' + (ok ? 'toast-ok' : 'toast-err');
+        t.style.display = 'block';
+        clearTimeout(t._t); t._t = setTimeout(() => t.style.display = 'none', 2500);
+      };
 
-    // ============ DATA LOADING ============
-    function loadData() {
-      const s = localStorage.getItem(STORE_KEY);
-      if (s) {
-        items = JSON.parse(s);
-        console.log('📁 Loaded local:', items.length, 'items');
+      // DOM refs
+      const $ = id => document.getElementById(id);
+      const gallery = $('gallery'), modal = $('modal'), uploadBox = $('uploadBox');
+      const prevImg = $('prevImg'), prevVid = $('prevVid'), prevIframe = $('prevIframe');
+
+      // ========== STORAGE ==========
+      function loadLocal() {
+        const d = localStorage.getItem(LK);
+        if (d) items = JSON.parse(d);
       }
-      
-      fetch(SHEET_CSV_URL)
-        .then(res => res.ok ? res.text() : Promise.reject('fetch failed'))
-        .then(csv => {
-          const rows = csv.split('\n').slice(1);
-          const sheetItems = rows.filter(r => r.trim()).map(r => {
-            const c = r.split(',');
+      function saveLocal() { localStorage.setItem(LK, JSON.stringify(items)); }
+
+      // ========== SHEETS API (FIXED) ==========
+      async function fetchSheet() {
+        try {
+          const r = await fetch(SHEET_CSV);
+          if (!r.ok) return [];
+          const t = await r.text();
+          return t.split('\n').slice(1).filter(l => l.trim()).map(l => {
+            const c = l.split(',');
             return {
-              id: c[0]?.trim() || '',
-              section: c[1]?.trim() || 'photos',
-              name: c[2]?.trim() || 'Untitled',
-              url: c[3]?.trim() || '',
-              downloadUrl: c[4]?.trim() || c[3]?.trim() || '',
-              embedUrl: c[5]?.trim() || '',
-              thumbnail: c[6]?.trim() || '',
-              platform: c[7]?.trim() || 'Link',
-              category: c[8]?.trim() || '',
-              description: c[9]?.trim() || ''
+              id: c[0]?.trim() || '', section: c[1]?.trim() || 'photos',
+              name: c[2]?.trim() || '', url: c[3]?.trim() || '',
+              dl: c[4]?.trim() || c[3]?.trim() || '', embed: c[5]?.trim() || '',
+              thumb: c[6]?.trim() || '', platform: c[7]?.trim() || '',
+              cat: c[8]?.trim() || '', desc: c[9]?.trim() || ''
             };
           });
-          
-          if (sheetItems.length > 0) {
-            const existingIds = new Set(items.map(i => i.id));
-            sheetItems.forEach(si => {
-              if (!existingIds.has(si.id)) items.push(si);
-            });
-            saveLocal();
-            console.log('☁️ Merged sheets:', sheetItems.length, 'items');
-          }
-          
-          renderGallery();
-          updateCounts();
-        })
-        .catch(err => {
-          console.warn('⚠️ Sheets unavailable:', err.message);
-          renderGallery();
-          updateCounts();
-        });
-    }
-
-    function saveLocal() { localStorage.setItem(STORE_KEY, JSON.stringify(items)); }
-
-    function saveToSheets(item) {
-      return fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(item)
-      }).then(() => true).catch(() => false);
-    }
-
-    // ============ GALLERY ============
-    function getBySection(s) { return items.filter(i => i.section === s); }
-
-    function updateCounts() {
-      ['photos','videos','designs','other'].forEach(s => {
-        const el = document.getElementById(s+'Count');
-        if (el) el.textContent = getBySection(s).length;
-      });
-    }
-
-    function renderGallery() {
-      const filtered = getBySection(currentTab);
-      updateCounts();
-      const g = document.getElementById('galleryContainer');
-
-      if (!filtered.length) {
-        g.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>No items yet. Click "Add Media"!</p></div>`;
-        return;
+        } catch { return []; }
       }
 
-      g.innerHTML = filtered.map(item => {
-        let mediaHtml = '';
-        const displayUrl = item.thumbnail || item.url || '';
+      // Save via GET (bypasses CORS) - Google Apps Script compatible
+      function saveToSheet(item) {
+        const params = new URLSearchParams({
+          id: item.id, section: item.section, name: item.name,
+          url: item.url, dl: item.dl, embed: item.embed,
+          thumb: item.thumb, platform: item.platform, cat: item.cat, desc: item.desc
+        });
+        // Use img tag to send GET request (no CORS issues)
+        return new Promise(resolve => {
+          const img = new Image();
+          img.onload = img.onerror = () => resolve(true);
+          img.src = SCRIPT_URL + '?' + params.toString();
+          setTimeout(() => resolve(true), 2000); // fallback
+        });
+      }
 
-        if (item.section === 'photos') {
-          mediaHtml = `<img src="${displayUrl}" alt="${item.name}" loading="lazy"
-            onerror="this.parentElement.innerHTML='<div class=design-preview><i class=fAS fa-image></i><p>Preview unavailable</p></div>';">`;
-        } else if (item.section === 'videos') {
-          if (item.embedUrl) {
-            mediaHtml = `<iframe src="${item.embedUrl}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-          } else if (displayUrl) {
-            mediaHtml = `<video controls src="${displayUrl}" preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>`;
-          } else {
-            mediaHtml = `<div class="design-preview"><i class="fas fa-video"></i><p>Video unavailable</p></div>`;
-          }
-        } else if (item.section === 'designs') {
-          mediaHtml = `<div class="design-preview"><i class="fas fa-palette"></i><a href="${item.url}" target="_blank">🔗 Open Design</a></div>`;
-        } else {
-          mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${item.url}" target="_blank">📥 View File</a></div>`;
+      // ========== INIT LOAD ==========
+      async function init() {
+        loadLocal();
+        const sheetItems = await fetchSheet();
+        if (sheetItems.length) {
+          // Merge: sheet items override by ID
+          const map = new Map(items.map(i => [i.id, i]));
+          sheetItems.forEach(s => map.set(s.id, s));
+          items = [...map.values()];
+          saveLocal();
         }
+        render();
+      }
 
-        return `<div class="card">
-          <div class="media-frame">${mediaHtml}</div>
-          <div class="card-body">
-            <div class="card-info">
-              <div class="item-name">${item.name}</div>
-              <div class="item-meta">
-                <span class="platform-badge">${item.platform}</span>
-                ${item.category ? `<span class="category-tag">📁 ${item.category}</span>` : ''}
+      // ========== RENDER ==========
+      function counts() {
+        document.querySelectorAll('.tab .count').forEach(el => {
+          const t = el.parentElement.dataset.tab;
+          el.textContent = items.filter(i => i.section === t).length;
+        });
+      }
+
+      function render() {
+        const filtered = items.filter(i => i.section === tab);
+        counts();
+        if (!filtered.length) {
+          gallery.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>No items. Click Add Media!</p></div>`;
+          return;
+        }
+        gallery.innerHTML = filtered.map(i => {
+          let m = '';
+          const src = i.thumb || i.url || '';
+          if (i.section === 'photos') {
+            m = `<img src="${src}" alt="${i.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=design-preview><i class=fAS fa-image></i></div>';">`;
+          } else if (i.section === 'videos') {
+            m = i.embed ? `<iframe src="${i.embed}" allowfullscreen></iframe>` :
+              `<video src="${src}" controls style="width:100%;height:100%;object-fit:cover;"></video>`;
+          } else if (i.section === 'designs') {
+            m = `<div class="design-preview"><i class="fas fa-palette"></i><a href="${i.url}" target="_blank">Open Design</a></div>`;
+          } else {
+            m = `<div class="design-preview"><i class="fas fa-file"></i><a href="${i.dl||i.url}" target="_blank">View File</a></div>`;
+          }
+          return `<div class="card">
+            <div class="media-frame">${m}</div>
+            <div class="card-body">
+              <div class="card-info">
+                <div class="item-name">${i.name}</div>
+                <div class="item-meta"><span class="platform-badge">${i.platform||'Link'}</span>${i.cat?`<span class="category-tag">📁 ${i.cat}</span>`:''}</div>
+              </div>
+              <div class="card-actions">
+                <button class="icon-btn" data-copy="${i.dl||i.url}"><i class="fas fa-copy"></i></button>
+                <button class="icon-btn dl-btn" data-dl="${i.dl||i.url}" data-name="${i.name}"><i class="fas fa-download"></i></button>
+                <button class="icon-btn" data-del="${i.id}" style="color:#ef4444;"><i class="fas fa-trash"></i></button>
               </div>
             </div>
-            <div class="card-actions">
-              <button class="icon-btn" onclick="copyLink('${item.downloadUrl || item.url}')"><i class="fas fa-copy"></i></button>
-              <button class="icon-btn download-btn" onclick="downloadFile('${item.downloadUrl || item.url}', '${item.name}')"><i class="fas fa-download"></i> DL</button>
-              <button class="icon-btn delete-btn" onclick="deleteItem('${item.id}')"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function copyLink(url) { navigator.clipboard.writeText(url).then(() => showStatus('📋 Copied!')); }
-    
-    function downloadFile(url, name) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = name || 'file';
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
-    function deleteItem(id) {
-      if (confirm('Delete permanently?')) {
-        items = items.filter(i => i.id !== id);
-        saveLocal();
-        renderGallery();
-        updateCounts();
-        showStatus('🗑️ Deleted');
+          </div>`;
+        }).join('');
+        // Events
+        gallery.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => {
+          navigator.clipboard.writeText(b.dataset.copy); toast('📋 Copied!');
+        });
+        gallery.querySelectorAll('[data-dl]').forEach(b => b.onclick = () => {
+          const a = document.createElement('a'); a.href = b.dataset.dl; a.download = b.dataset.name||'file'; a.click();
+        });
+        gallery.querySelectorAll('[data-del]').forEach(b => b.onclick = () => {
+          if (confirm('Delete?')) {
+            items = items.filter(i => i.id !== b.dataset.del);
+            saveLocal(); render(); toast('🗑️ Deleted');
+          }
+        });
       }
-    }
 
-    function switchTab(tab) {
-      currentTab = tab;
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-      renderGallery();
-    }
+      // ========== TABS ==========
+      document.getElementById('tabsContainer').addEventListener('click', e => {
+        const t = e.target.closest('.tab');
+        if (!t) return;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        tab = t.dataset.tab;
+        render();
+      });
 
-    // ============ UPLOAD BOX PREVIEW ============
-    function showPreviewInBox(type, src) {
-      const box = document.getElementById('uploadBox');
-      const img = document.getElementById('previewImage');
-      const vid = document.getElementById('previewVideo');
-      const ifr = document.getElementById('previewIframe');
-      
-      // Hide all
-      img.style.display = 'none';
-      vid.style.display = 'none';
-      ifr.style.display = 'none';
-      
-      if (type === 'image') {
-        img.src = src;
-        img.style.display = 'block';
-      } else if (type === 'video') {
-        vid.src = src;
-        vid.style.display = 'block';
-      } else if (type === 'iframe') {
-        ifr.src = src;
-        ifr.style.display = 'block';
+      // ========== MODAL ==========
+      function resetPreview() {
+        uploadBox.classList.remove('filled');
+        prevImg.style.display = prevVid.style.display = prevIframe.style.display = 'none';
+        $('fileNameDisplay').textContent = '';
+        fileData = null; fileType = null;
+        $('fileInput').value = '';
       }
-      
-      box.classList.add('has-media');
-    }
 
-    function resetUpload() {
-      const box = document.getElementById('uploadBox');
-      box.classList.remove('has-media');
-      document.getElementById('previewImage').style.display = 'none';
-      document.getElementById('previewVideo').style.display = 'none';
-      document.getElementById('previewIframe').style.display = 'none';
-      document.getElementById('uploadedFileName').textContent = '';
-      document.getElementById('fileInput').value = '';
-      pendingFileData = null;
-      pendingFileType = null;
-    }
+      function showPreview(type, src) {
+        uploadBox.classList.add('filled');
+        prevImg.style.display = prevVid.style.display = prevIframe.style.display = 'none';
+        if (type === 'image') { prevImg.src = src; prevImg.style.display = 'block'; }
+        else if (type === 'video') { prevVid.src = src; prevVid.style.display = 'block'; }
+        else if (type === 'iframe') { prevIframe.src = src; prevIframe.style.display = 'block'; }
+      }
 
-    // ============ FILE HANDLING ============
-    function handleFile(file) {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        pendingFileData = ev.target.result;
-        
-        if (file.type.startsWith('image/')) {
-          pendingFileType = 'image';
-          showPreviewInBox('image', pendingFileData);
-          document.getElementById('mediaSection').value = 'photos';
-        } else if (file.type.startsWith('video/')) {
-          pendingFileType = 'video';
-          showPreviewInBox('video', pendingFileData);
-          document.getElementById('mediaSection').value = 'videos';
-        } else {
-          pendingFileType = 'other';
-          document.getElementById('uploadBox').classList.add('has-media');
-          document.getElementById('mediaSection').value = 'other';
-        }
-        
-        document.getElementById('uploadedFileName').textContent = '📁 ' + file.name;
-        document.getElementById('mediaName').value = file.name.replace(/\.[^/.]+$/, '');
-        document.getElementById('mediaUrlInput').value = '';
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // ============ URL LINK PREVIEW ============
-    function processDriveUrl(url) {
-      const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (m) {
-        const id = m[1];
-        return {
-          view: `https://drive.google.com/uc?export=view&id=${id}`,
-          download: `https://drive.google.com/uc?export=download&id=${id}`,
-          embed: `https://drive.google.com/file/d/${id}/preview`,
-          thumb: `https://drive.google.com/thumbnail?id=${id}&sz=w600`
+      function handleFile(f) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          fileData = e.target.result;
+          fileType = f.type.startsWith('image/') ? 'image' : f.type.startsWith('video/') ? 'video' : 'other';
+          showPreview(fileType, fileData);
+          $('fileNameDisplay').textContent = '📁 ' + f.name;
+          $('nameInput').value = f.name.replace(/\.[^.]+$/, '');
+          $('sectionSelect').value = fileType === 'image' ? 'photos' : fileType === 'video' ? 'videos' : 'other';
+          $('linkInput').value = '';
         };
+        reader.readAsDataURL(f);
       }
-      return null;
-    }
 
-    function processYoutube(url) {
-      const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/);
-      return m ? { embed: `https://www.youtube.com/embed/${m[1]}` } : null;
-    }
-
-    function detectSection(url) {
-      const l = url.toLowerCase();
-      if (l.includes('youtube') || l.includes('youtu.be') || l.includes('vimeo') || l.match(/\.(mp4|webm|mov)/)) return 'videos';
-      if (l.match(/\.(jpg|jpeg|png|gif|webp|svg)/) || l.includes('uc?export=view')) return 'photos';
-      if (l.includes('figma') || l.includes('canva') || l.includes('behance')) return 'designs';
-      return 'other';
-    }
-
-    function handleUrlInput(url) {
-      if (!url || url.startsWith('📁')) {
-        if (!pendingFileData) resetUpload();
-        return;
-      }
-      
-      // Reset file upload if user is pasting a link
-      resetUpload();
-      
-      const drive = processDriveUrl(url);
-      const yt = processYoutube(url);
-      
-      if (drive) {
-        showPreviewInBox('image', drive.thumb);
-        document.getElementById('mediaSection').value = 'photos';
-        document.getElementById('uploadedFileName').textContent = '🔗 Google Drive';
-      } else if (yt) {
-        showPreviewInBox('iframe', yt.embed);
-        document.getElementById('mediaSection').value = 'videos';
-        document.getElementById('uploadedFileName').textContent = '🔗 YouTube';
-      } else if (url.match(/\.(jpg|jpeg|png|gif|webp|svg)($|\?)/i)) {
-        showPreviewInBox('image', url);
-        document.getElementById('mediaSection').value = 'photos';
-        document.getElementById('uploadedFileName').textContent = '🔗 Image Link';
-      } else if (url.match(/\.(mp4|webm|mov)($|\?)/i)) {
-        showPreviewInBox('video', url);
-        document.getElementById('mediaSection').value = 'videos';
-        document.getElementById('uploadedFileName').textContent = '🔗 Video Link';
-      } else {
-        document.getElementById('uploadBox').classList.add('has-media');
-        document.getElementById('mediaSection').value = detectSection(url);
-        document.getElementById('uploadedFileName').textContent = '🔗 Link';
-      }
-    }
-
-    // ============ MODAL ============
-    function openAddModal() {
-      document.getElementById('addModal').classList.add('active');
-      document.getElementById('mediaSection').value = currentTab;
-      resetUpload();
-      document.getElementById('mediaUrlInput').value = '';
-      document.getElementById('mediaName').value = '';
-      document.getElementById('mediaCategory').value = '';
-    }
-
-    function closeAddModal() {
-      document.getElementById('addModal').classList.remove('active');
-      resetUpload();
-    }
-
-    // ============ SAVE ============
-    function saveMedia() {
-      const name = document.getElementById('mediaName').value.trim();
-      if (!name) { showStatus('⚠️ Please enter a name', false); return; }
-
-      const section = document.getElementById('mediaSection').value;
-      const category = document.getElementById('mediaCategory').value.trim();
-      const rawUrl = document.getElementById('mediaUrlInput').value.trim();
-      const id = 'item_' + Date.now();
-
-      let url, downloadUrl, embedUrl, thumbnail, platform;
-
-      if (pendingFileData) {
-        // File upload
-        url = pendingFileData;
-        downloadUrl = pendingFileData;
-        thumbnail = pendingFileData;
-        embedUrl = '';
-        platform = 'Device Upload';
-      } else if (rawUrl) {
-        const drive = processDriveUrl(rawUrl);
-        const yt = processYoutube(rawUrl);
-        
+      function handleLink(url) {
+        if (!url) return;
+        const drive = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/);
         if (drive) {
-          url = drive.view;
-          downloadUrl = drive.download;
-          embedUrl = drive.embed;
-          thumbnail = drive.thumb;
-          platform = 'Google Drive';
+          const id = drive[1];
+          showPreview('image', `https://drive.google.com/thumbnail?id=${id}&sz=w600`);
+          $('sectionSelect').value = 'photos';
+          $('fileNameDisplay').textContent = '🔗 Google Drive';
         } else if (yt) {
-          url = rawUrl;
-          downloadUrl = rawUrl;
-          embedUrl = yt.embed;
-          thumbnail = '';
-          platform = 'YouTube';
+          showPreview('iframe', `https://www.youtube.com/embed/${yt[1]}`);
+          $('sectionSelect').value = 'videos';
+          $('fileNameDisplay').textContent = '🔗 YouTube';
+        } else if (url.match(/\.(jpg|jpeg|png|gif|webp)/i)) {
+          showPreview('image', url); $('sectionSelect').value = 'photos';
+        } else if (url.match(/\.(mp4|webm|mov)/i)) {
+          showPreview('video', url); $('sectionSelect').value = 'videos';
         } else {
-          url = rawUrl;
-          downloadUrl = rawUrl;
-          embedUrl = '';
-          thumbnail = rawUrl;
-          platform = 'Direct Link';
+          uploadBox.classList.add('filled');
+          $('sectionSelect').value = 'other';
+          $('fileNameDisplay').textContent = '🔗 Link';
         }
-      } else {
-        showStatus('⚠️ Upload a file or paste a link', false);
-        return;
       }
 
-      const newItem = { id, section, name, url, downloadUrl, embedUrl, thumbnail, platform, category, description: '' };
+      // Modal events
+      $('addBtn').onclick = () => { modal.classList.add('show'); $('sectionSelect').value = tab; resetPreview(); $('linkInput').value = ''; $('nameInput').value = ''; $('catInput').value = ''; };
+      $('cancelBtn').onclick = () => { modal.classList.remove('show'); resetPreview(); };
+      modal.onclick = e => { if (e.target === modal) { modal.classList.remove('show'); resetPreview(); } };
+      $('changeBtn').onclick = e => { e.stopPropagation(); resetPreview(); };
 
-      // Save
-      items.push(newItem);
-      saveLocal();
-      saveToSheets(newItem).then(ok => { if (ok) console.log('☁️ Synced to sheets'); });
+      uploadBox.onclick = () => $('fileInput').click();
+      uploadBox.ondragover = e => { e.preventDefault(); };
+      uploadBox.ondrop = e => { e.preventDefault(); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); };
+      $('fileInput').onchange = e => { if (e.target.files[0]) handleFile(e.target.files[0]); };
+      $('linkInput').oninput = function() {
+        const v = this.value.trim();
+        if (v) { resetPreview(); handleLink(v); }
+      };
 
-      // Close and refresh
-      closeAddModal();
-      currentTab = section;
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelector(`[data-tab="${section}"]`).classList.add('active');
-      renderGallery();
-      updateCounts();
-      showStatus('✅ Media saved!');
-    }
+      // ========== SAVE (INSTANT) ==========
+      $('saveBtn').onclick = () => {
+        const name = $('nameInput').value.trim();
+        if (!name) { toast('Enter name', false); return; }
 
-    function refreshData() {
-      loadData();
-      showStatus('🔄 Refreshed!');
-    }
+        const section = $('sectionSelect').value;
+        const cat = $('catInput').value.trim();
+        const rawLink = $('linkInput').value.trim();
+        const id = 'i' + Date.now() + Math.random().toString(36).slice(2,6);
 
-    // ============ EVENT LISTENERS ============
-    const uploadBox = document.getElementById('uploadBox');
-    uploadBox.addEventListener('click', function(e) {
-      if (e.target.classList.contains('change-media-btn')) return;
-      document.getElementById('fileInput').click();
-    });
-    
-    uploadBox.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      this.style.borderColor = '#0b2b4f';
-    });
-    
-    uploadBox.addEventListener('dragleave', function() {
-      this.style.borderColor = '#dce3ec';
-    });
-    
-    uploadBox.addEventListener('drop', function(e) {
-      e.preventDefault();
-      this.style.borderColor = '#dce3ec';
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
+        let url, dl, embed, thumb, platform;
 
-    document.getElementById('fileInput').addEventListener('change', function(e) {
-      if (e.target.files.length) handleFile(e.target.files[0]);
-    });
+        if (fileData) {
+          url = dl = thumb = fileData; embed = ''; platform = 'Device Upload';
+        } else if (rawLink) {
+          const drive = rawLink.match(/\/d\/([a-zA-Z0-9_-]+)/);
+          const yt = rawLink.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/);
+          if (drive) {
+            const id = drive[1];
+            url = `https://drive.google.com/uc?export=view&id=${id}`;
+            dl = `https://drive.google.com/uc?export=download&id=${id}`;
+            embed = `https://drive.google.com/file/d/${id}/preview`;
+            thumb = `https://drive.google.com/thumbnail?id=${id}&sz=w600`;
+            platform = 'Google Drive';
+          } else if (yt) {
+            url = dl = rawLink; embed = `https://www.youtube.com/embed/${yt[1]}`; thumb = ''; platform = 'YouTube';
+          } else {
+            url = dl = thumb = rawLink; embed = ''; platform = 'Direct Link';
+          }
+        } else {
+          toast('Upload or paste link', false); return;
+        }
 
-    document.getElementById('mediaUrlInput').addEventListener('input', function() {
-      handleUrlInput(this.value.trim());
-    });
+        const item = { id, section, name, url, dl, embed, thumb, platform, cat, desc: '' };
 
-    // Close modal on overlay click
-    document.getElementById('addModal').addEventListener('click', function(e) {
-      if (e.target === this) closeAddModal();
-    });
+        // INSTANT save
+        items.push(item);
+        saveLocal();
+        modal.classList.remove('show');
+        resetPreview();
+        tab = section;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`[data-tab="${section}"]`).classList.add('active');
+        render();
+        toast('✅ Saved!');
 
-    // Init
-    loadData();
-    console.log('✅ Hazime Nepal Butwal - Ready');
+        // Background sync (non-blocking)
+        saveToSheet(item);
+      };
+
+      // Refresh
+      $('refreshBtn').onclick = async () => { await init(); toast('🔄 Synced!'); };
+
+      // Start
+      init();
+    })();
   </script>
 </body>
 </html>
