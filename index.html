@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Hazime Nepal Butwal · portfolio</title>
+  <title>Hazime Nepal Butwal · Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #f0f4f8;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       color: #0f172a;
       line-height: 1.5;
     }
     .app { max-width: 1500px; margin: 0 auto; padding: 1.5rem 2rem; }
-    
+
     .header {
-      background: white; border-radius: 2.5rem; padding: 1.3rem 2.2rem;
+      background: white; border-radius: 2rem; padding: 1.3rem 2rem;
       display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
       box-shadow: 0 12px 30px -10px rgba(0,0,0,0.05); margin-bottom: 2rem; gap: 1rem;
     }
@@ -29,7 +29,7 @@
     .brand h1 { font-size: 1.7rem; font-weight: 700; color: #0b1e33; line-height: 1.2; }
     .brand span { font-size: 0.85rem; color: #5f6b7a; display: block; }
     .header-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
-    
+
     .btn {
       padding: 0.65rem 1.4rem; border-radius: 2.5rem; font-weight: 600; font-size: 0.85rem;
       border: 1px solid #dce3ec; background: white; cursor: pointer;
@@ -42,7 +42,7 @@
     .btn-outline:hover { background: #f1f5ff; border-color: #0b2b4f; }
     .btn-success { background: #10b981; color: white; border-color: #10b981; }
     .btn-success:hover { background: #059669; }
-    
+
     .tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
     .tab {
       padding: 0.7rem 1.7rem; border-radius: 2.5rem; font-weight: 600; font-size: 0.9rem;
@@ -56,7 +56,7 @@
       border-radius: 1rem; font-size: 0.7rem; font-weight: 600;
     }
     .tab.active .count { background: rgba(255,255,255,0.25); }
-    
+
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.7rem; }
     .card {
       background: white; border-radius: 1.8rem; overflow: hidden;
@@ -64,14 +64,14 @@
       border: 1px solid #eef2f8; display: flex; flex-direction: column;
     }
     .card:hover { transform: translateY(-3px); box-shadow: 0 22px 34px -12px rgba(0,20,40,0.14); }
-    
+
     .media-frame {
       width: 100%; aspect-ratio: 16/9; background: #edf2f9;
       display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
     }
     .media-frame img, .media-frame video { width: 100%; height: 100%; object-fit: cover; }
     .media-frame iframe { width: 100%; height: 100%; border: 0; }
-    
+
     .design-preview {
       background: linear-gradient(135deg, #eef2ff, #f9fafc);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -79,7 +79,7 @@
     }
     .design-preview i { font-size: 2.8rem; color: #0b2b4f; }
     .design-preview a { color: #0b2b4f; font-weight: 600; text-decoration: underline; font-size: 0.9rem; }
-    
+
     .card-body {
       padding: 1rem 1.2rem; display: flex; justify-content: space-between;
       align-items: center; flex-wrap: wrap; gap: 0.7rem;
@@ -105,10 +105,10 @@
     .icon-btn.download-btn { background: #0b2b4f; color: white; border-color: #0b2b4f; }
     .icon-btn.download-btn:hover { background: #123d63; }
     .icon-btn.delete-btn:hover { background: #fef2f2; color: #b91c1c; }
-    
+
     .empty-state { text-align: center; padding: 3rem; color: #64748b; grid-column: 1/-1; }
     .empty-state i { font-size: 2.5rem; opacity: 0.5; margin-bottom: 0.8rem; display: block; }
-    
+
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
@@ -130,45 +130,33 @@
       background: #fafbfc; font-size: 0.9rem;
     }
     .form-group input:focus, .form-group select:focus { outline: 2px solid #0b2b4f; outline-offset: 2px; }
-    
+
     .upload-area {
       border: 2px dashed #dce3ec; border-radius: 1.5rem; padding: 2rem;
       text-align: center; cursor: pointer; transition: 0.3s; background: #fafbfc;
     }
     .upload-area:hover { border-color: #0b2b4f; background: #f1f5ff; }
     .upload-area i { font-size: 2rem; color: #0b2b4f; margin-bottom: 0.5rem; }
-    
+
     .preview-container {
       width: 100%; aspect-ratio: 16/9; background: #edf2f9;
       border-radius: 1rem; overflow: hidden; margin-top: 0.5rem; display: none; position: relative;
     }
+    .preview-container.active { display: block; }
     .preview-container img, .preview-container video, .preview-container iframe {
       width: 100%; height: 100%; object-fit: cover; border: 0;
     }
-    .preview-container.active { display: block; }
     .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.8rem; flex-wrap: wrap; }
     .drive-hint { font-size: 0.75rem; color: #64748b; margin-top: 0.3rem; display: flex; align-items: center; gap: 0.3rem; }
-    
-    .loading-overlay {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: white; padding: 2rem; border-radius: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      z-index: 2000; display: none; text-align: center;
-    }
-    .loading-overlay.active { display: block; }
-    .spinner {
-      width: 40px; height: 40px; border: 4px solid #e2e8f0;
-      border-top: 4px solid #0b2b4f; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    
+
     .status-message {
       position: fixed; bottom: 20px; right: 20px; padding: 1rem 1.5rem;
       border-radius: 2rem; color: white; font-weight: 600; z-index: 3000;
       display: none; animation: slideIn 0.3s ease;
     }
     @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    .status-success { background: #10b981; }
-    .status-error { background: #ef4444; }
+    .status-success { background: #10b981; display: block; }
+    .status-error { background: #ef4444; display: block; }
   </style>
 </head>
 <body>
@@ -186,9 +174,9 @@
           <i class="fas fa-folder-tree"></i> Categories
         </button>
         <button class="btn btn-primary" id="openImportModalBtn">
-          <i class="fas fa-cloud-upload-alt"></i> Add Media
+          <i class="fas fa-plus-circle"></i> Add Media
         </button>
-        <button class="btn btn-outline" id="refreshBtn" title="Refresh from database">
+        <button class="btn btn-outline" id="refreshBtn" title="Refresh from cloud">
           <i class="fas fa-sync-alt"></i>
         </button>
       </div>
@@ -202,7 +190,7 @@
         <i class="fas fa-video"></i> Videos <span class="count" id="videosCount">0</span>
       </div>
       <div class="tab" data-tab="designs">
-        <i class="fas fa-palette"></i> Designs / Links <span class="count" id="designsCount">0</span>
+        <i class="fas fa-palette"></i> Designs/Links <span class="count" id="designsCount">0</span>
       </div>
       <div class="tab" data-tab="other">
         <i class="fas fa-file-alt"></i> Other Files <span class="count" id="otherCount">0</span>
@@ -212,40 +200,33 @@
     <div class="gallery-grid" id="galleryContainer"></div>
   </div>
 
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner"></div>
-    <p id="loadingText">Loading...</p>
-  </div>
-  
   <div class="status-message" id="statusMessage"></div>
 
-  <!-- STEP 1: Import Modal -->
+  <!-- Add Media Modal -->
   <div class="modal-overlay" id="importModal">
     <div class="modal">
-      <h3><i class="fas fa-cloud-upload-alt"></i> Add Media</h3>
-      
-      <!-- Upload from device -->
+      <h3><i class="fas fa-plus-circle"></i> Add Media</h3>
+
       <div class="form-group">
         <label>Upload from Device</label>
         <div class="upload-area" id="uploadArea">
           <i class="fas fa-cloud-upload-alt"></i>
-          <p>Click or drag files here</p>
-          <small style="color:#64748b;">Photos, videos, or any file</small>
+          <p>Click or drag file here</p>
+          <small>Photos, videos, or documents</small>
         </div>
-        <input type="file" id="fileInput" style="display:none;" multiple accept="image/*,video/*,.pdf,.psd,.ai,.fig,.zip">
+        <input type="file" id="fileInput" style="display:none;" accept="image/*,video/*,.pdf,.zip,.psd,.ai">
       </div>
-      
+
       <div style="text-align:center; margin:1rem 0; color:#94a3b8;">— OR —</div>
-      
-      <!-- Paste link -->
+
       <div class="form-group">
         <label>Paste Link (Google Drive / YouTube / etc.)</label>
-        <input type="text" id="importUrl" placeholder="https://drive.google.com/file/d/... or any URL">
+        <input type="text" id="importUrl" placeholder="https://drive.google.com/file/d/...">
         <div class="drive-hint">
-          <i class="fas fa-info-circle"></i> For Drive: share link. YouTube: video URL. Images: direct URL.
+          <i class="fas fa-info-circle"></i> Best for multi-device: Upload to Drive, paste share link
         </div>
       </div>
-      
+
       <div class="form-group">
         <label>Section</label>
         <select id="importSection">
@@ -255,55 +236,43 @@
           <option value="other">📄 Other Files</option>
         </select>
       </div>
-      
-      <div class="preview-container" id="importPreviewContainer">
-        <img id="importPreviewImage" alt="Preview" style="display:none;">
-        <video id="importPreviewVideo" controls style="display:none;"></video>
-        <iframe id="importPreviewIframe" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
-      </div>
-      
-      <div class="modal-actions">
-        <button class="btn btn-outline" id="cancelImportBtn">Cancel</button>
-        <button class="btn btn-primary" id="continueToDetailsBtn">
-          Continue <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
-    </div>
-  </div>
 
-  <!-- STEP 2: Details Modal -->
-  <div class="modal-overlay" id="detailsModal">
-    <div class="modal">
-      <h3><i class="fas fa-edit"></i> Add Details</h3>
       <div class="form-group">
-        <label>Item Name *</label>
-        <input type="text" id="detailName" placeholder="e.g., Butwal Sunset Shoot">
+        <label>Item Name</label>
+        <input type="text" id="detailName" placeholder="e.g., Butwal Sunset">
       </div>
+
       <div class="form-group">
         <label>Category</label>
-        <select id="detailCategory">
-          <option value="">-- Select existing --</option>
+        <input type="text" id="detailCategory" placeholder="e.g., Nature, Events (or choose existing)">
+        <select id="detailCategorySelect" style="margin-top:0.3rem;">
+          <option value="">-- Existing categories --</option>
         </select>
-        <input type="text" id="detailNewCategory" placeholder="Or type new category name" style="margin-top:0.3rem;">
       </div>
+
       <div class="form-group">
-        <label>Platform / Source</label>
+        <label>Platform</label>
         <select id="detailPlatform">
-          <option value="Device Upload">Device Upload</option>
           <option value="Google Drive">Google Drive</option>
+          <option value="Device Upload">Device Upload</option>
           <option value="YouTube">YouTube</option>
           <option value="Vimeo">Vimeo</option>
           <option value="Direct Link">Direct Link</option>
           <option value="Other">Other</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Description (optional)</label>
-        <input type="text" id="detailDescription" placeholder="Short description...">
+
+      <div class="preview-container" id="importPreviewContainer">
+        <img id="importPreviewImage" alt="Preview" style="display:none;">
+        <video id="importPreviewVideo" controls style="display:none;"></video>
+        <iframe id="importPreviewIframe" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
       </div>
+
       <div class="modal-actions">
-        <button class="btn btn-outline" id="backToImportBtn"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="btn btn-success" id="saveDetailsBtn"><i class="fas fa-save"></i> Save</button>
+        <button class="btn btn-outline" id="cancelImportBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveMediaBtn">
+          <i class="fas fa-save"></i> Save Media
+        </button>
       </div>
     </div>
   </div>
@@ -332,636 +301,376 @@
   <script>
     (function() {
       // ============================================
-      // 🔧 CONFIGURATION
+      // YOUR GOOGLE SHEETS URLs
       // ============================================
-      const SHEET_CSV_URL = 'YOUR_SHEET_CSV_URL_HERE';
-      const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
-      
-      // Use localStorage if Sheets not configured
-      const USE_SHEETS = SHEET_CSV_URL && !SHEET_CSV_URL.includes('YOUR_SHEET_CSV_URL');
-      
-      // Temporary storage for uploaded files (Base64)
-      const STORAGE_KEY = 'hazime_nepal_butwal_data';
-      const FILES_KEY = 'hazime_nepal_butwal_files';
-      
+      const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT5PiOx2fH1UxOivvGIlo12k0j4MVNWUp47ZL0KEtc1oJ3M8WObdBoHcbbcmKXJ4bZnH04HghDNx7wQ/pub?output=csv';
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTCQLCTWLNRplbwzQJyTakLjxG5gpKTGv_-pRubMFsHD7mrk3N44n9FiQy4t6GDar7/exec';
+
+      const STORAGE_KEY = 'hazime_local_backup';
       let data = { categories: [], items: [] };
-      let uploadedFiles = {}; // Store base64 files
+      let uploadedFiles = {};
       let currentTab = 'photos';
-      let pendingImport = { section: 'photos', url: '', fileData: null };
+      let pendingFile = null;
 
-      // Show status message
-      function showStatus(message, type = 'success') {
+      function showStatus(msg, type) {
         const el = document.getElementById('statusMessage');
-        el.textContent = message;
-        el.className = `status-message status-${type}`;
-        el.style.display = 'block';
-        setTimeout(() => el.style.display = 'none', 3000);
+        el.textContent = msg;
+        el.className = 'status-message status-' + type;
+        setTimeout(() => { el.className = 'status-message'; }, 3000);
       }
 
-      // Load data
-      async function loadData() {
-        showLoading('Loading media...');
-        
-        // Load files from localStorage
-        const filesStr = localStorage.getItem(FILES_KEY);
-        uploadedFiles = filesStr ? JSON.parse(filesStr) : {};
-        
-        if (USE_SHEETS) {
-          try {
-            const response = await fetch(SHEET_CSV_URL);
-            if (!response.ok) throw new Error('Failed to fetch');
-            const csvText = await response.text();
-            const rows = csvText.split('\n').slice(1);
-            
-            data.items = rows.filter(row => row.trim()).map(row => {
-              const cols = row.split(',');
-              return {
-                id: cols[0]?.trim(),
-                section: cols[1]?.trim(),
-                name: cols[2]?.trim(),
-                url: cols[3]?.trim(),
-                downloadUrl: cols[4]?.trim() || cols[3]?.trim(),
-                embedUrl: cols[5]?.trim() || null,
-                thumbnail: cols[6]?.trim() || null,
-                platform: cols[7]?.trim() || 'Google Drive',
-                category: cols[8]?.trim() || '',
-                description: cols[9]?.trim() || '',
-                isLocalFile: cols[10]?.trim() === 'true'
-              };
-            });
+      // Load from Google Sheets
+      async function loadFromSheets() {
+        try {
+          const res = await fetch(SHEET_CSV_URL);
+          if (!res.ok) throw new Error('Sheet fetch failed');
+          const csv = await res.text();
+          const rows = csv.split('\n').slice(1);
+          
+          data.items = rows.filter(r => r.trim()).map(r => {
+            const c = r.split(',');
+            return {
+              id: c[0]?.trim(),
+              section: c[1]?.trim(),
+              name: c[2]?.trim(),
+              url: c[3]?.trim(),
+              downloadUrl: c[4]?.trim() || c[3]?.trim(),
+              embedUrl: c[5]?.trim() || '',
+              thumbnail: c[6]?.trim() || '',
+              platform: c[7]?.trim() || 'Google Drive',
+              category: c[8]?.trim() || '',
+              description: c[9]?.trim() || ''
+            };
+          });
 
-            // Merge with local files
-            data.items = data.items.map(item => {
-              if (item.isLocalFile && uploadedFiles[item.id]) {
-                item.url = uploadedFiles[item.id];
-                item.downloadUrl = uploadedFiles[item.id];
-                item.thumbnail = uploadedFiles[item.id];
-              }
-              return item;
-            });
-
-            const cats = new Set(data.items.map(i => i.category).filter(Boolean));
-            data.categories = Array.from(cats);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            showStatus('✅ Data loaded from database', 'success');
-          } catch (error) {
-            console.error('Error loading from Sheets:', error);
-            loadFromLocalStorage();
-            showStatus('⚠️ Using local storage', 'error');
-          }
-        } else {
-          loadFromLocalStorage();
-          showStatus('📁 Using local storage (configure Sheets for multi-device)', 'success');
+          const cats = [...new Set(data.items.map(i => i.category).filter(Boolean))];
+          data.categories = cats;
+          
+          // Backup locally
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          return true;
+        } catch (e) {
+          console.warn('Sheets load failed, using local backup:', e.message);
+          return false;
         }
-        
-        hideLoading();
-        renderGallery();
       }
 
-      function loadFromLocalStorage() {
+      function loadLocalBackup() {
         const s = localStorage.getItem(STORAGE_KEY);
-        data = s ? JSON.parse(s) : { categories: [], items: [] };
-        
-        // Restore local file URLs
-        data.items = data.items.map(item => {
-          if (item.isLocalFile && uploadedFiles[item.id]) {
-            item.url = uploadedFiles[item.id];
-            item.downloadUrl = uploadedFiles[item.id];
-            item.thumbnail = uploadedFiles[item.id];
-          }
-          return item;
-        });
+        if (s) data = JSON.parse(s);
       }
 
-      function showLoading(text = 'Loading...') {
-        document.getElementById('loadingText').textContent = text;
-        document.getElementById('loadingOverlay').classList.add('active');
-      }
-
-      function hideLoading() {
-        document.getElementById('loadingOverlay').classList.remove('active');
-      }
-
-      // DOM Elements
-      const gallery = document.getElementById('galleryContainer');
-      const importModal = document.getElementById('importModal');
-      const detailsModal = document.getElementById('detailsModal');
-      const categoryModal = document.getElementById('categoryModal');
-      const importSection = document.getElementById('importSection');
-      const importUrl = document.getElementById('importUrl');
-      const importPreviewContainer = document.getElementById('importPreviewContainer');
-      const importPreviewImage = document.getElementById('importPreviewImage');
-      const importPreviewVideo = document.getElementById('importPreviewVideo');
-      const importPreviewIframe = document.getElementById('importPreviewIframe');
-
-      // File upload handling
-      const uploadArea = document.getElementById('uploadArea');
-      const fileInput = document.getElementById('fileInput');
-
-      uploadArea.addEventListener('click', () => fileInput.click());
-      
-      uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.style.borderColor = '#0b2b4f';
-        uploadArea.style.background = '#f1f5ff';
-      });
-      
-      uploadArea.addEventListener('dragleave', () => {
-        uploadArea.style.borderColor = '#dce3ec';
-        uploadArea.style.background = '#fafbfc';
-      });
-      
-      uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.style.borderColor = '#dce3ec';
-        uploadArea.style.background = '#fafbfc';
-        handleFiles(e.dataTransfer.files);
-      });
-      
-      fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
-
-      function handleFiles(files) {
-        if (!files || files.length === 0) return;
-        
-        const file = files[0];
-        const reader = new FileReader();
-        
-        showLoading('Reading file...');
-        
-        reader.onload = function(e) {
-          const base64 = e.target.result;
-          pendingImport.fileData = {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            base64: base64
-          };
-          pendingImport.url = base64;
-          
-          // Auto-detect section
-          if (file.type.startsWith('image/')) {
-            importSection.value = 'photos';
-          } else if (file.type.startsWith('video/')) {
-            importSection.value = 'videos';
-          } else {
-            importSection.value = 'other';
-          }
-          
-          // Show preview
-          hideAllPreviews();
-          if (file.type.startsWith('image/')) {
-            importPreviewImage.src = base64;
-            importPreviewImage.style.display = 'block';
-            importPreviewContainer.classList.add('active');
-          } else if (file.type.startsWith('video/')) {
-            importPreviewVideo.src = base64;
-            importPreviewVideo.style.display = 'block';
-            importPreviewContainer.classList.add('active');
-          }
-          
-          importUrl.value = `📁 ${file.name} (${formatFileSize(file.size)})`;
-          hideLoading();
-          showStatus('✅ File ready!', 'success');
-        };
-        
-        reader.readAsDataURL(file);
-      }
-
-      function formatFileSize(bytes) {
-        if (bytes < 1024) return bytes + ' B';
-        if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-        return (bytes / 1048576).toFixed(1) + ' MB';
-      }
-
-      function hideAllPreviews() {
-        importPreviewImage.style.display = 'none';
-        importPreviewVideo.style.display = 'none';
-        importPreviewIframe.style.display = 'none';
-        importPreviewContainer.classList.remove('active');
-      }
-
-      function updatePreview(url) {
-        hideAllPreviews();
-        if (!url || url.startsWith('📁')) return;
-
-        const driveInfo = convertDriveLink(url);
-        const ytInfo = convertYoutubeLink(url);
-        const vimeoInfo = convertVimeoLink(url);
-
-        if (driveInfo) {
-          importPreviewImage.src = driveInfo.thumbnail;
-          importPreviewImage.style.display = 'block';
-          importPreviewContainer.classList.add('active');
-        } else if (ytInfo) {
-          importPreviewIframe.src = ytInfo.embed;
-          importPreviewIframe.style.display = 'block';
-          importPreviewContainer.classList.add('active');
-        } else if (vimeoInfo) {
-          importPreviewIframe.src = vimeoInfo.embed;
-          importPreviewIframe.style.display = 'block';
-          importPreviewContainer.classList.add('active');
-        } else if (url.match(/\.(jpg|jpeg|png|gif|webp|svg)($|\?)/i)) {
-          importPreviewImage.src = url;
-          importPreviewImage.style.display = 'block';
-          importPreviewContainer.classList.add('active');
-        } else if (url.match(/\.(mp4|webm|mov)($|\?)/i)) {
-          importPreviewVideo.src = url;
-          importPreviewVideo.style.display = 'block';
-          importPreviewContainer.classList.add('active');
+      // Save to Sheets
+      async function saveToSheets(item) {
+        try {
+          const res = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(item)
+          });
+          return true;
+        } catch (e) {
+          console.warn('Sheets save failed:', e.message);
+          return false;
         }
       }
 
-      importUrl.addEventListener('input', () => {
-        const url = importUrl.value.trim();
-        if (!url.startsWith('📁')) {
-          updatePreview(url);
-          const detected = detectSectionFromUrl(url);
-          importSection.value = detected;
-        }
-      });
+      function saveLocally() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }
 
-      function detectSectionFromUrl(url) {
-        const lower = url.toLowerCase();
-        if (lower.includes('youtube.com') || lower.includes('youtu.be') || lower.includes('vimeo.com') ||
-            lower.match(/\.(mp4|webm|mov|avi|mkv)($|\?)/)) return 'videos';
-        if (lower.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg)($|\?)/) || lower.includes('uc?export=view') ||
-            lower.includes('unsplash.com') || lower.includes('imgur.com')) return 'photos';
-        if (lower.includes('figma.com') || lower.includes('canva.com') || lower.includes('behance.net') ||
-            lower.includes('dribbble.com')) return 'designs';
+      function detectSection(url) {
+        const l = url.toLowerCase();
+        if (l.includes('youtube') || l.includes('youtu.be') || l.includes('vimeo') || l.match(/\.(mp4|webm|mov)/)) return 'videos';
+        if (l.match(/\.(jpg|jpeg|png|gif|webp|svg)/) || l.includes('uc?export=view')) return 'photos';
+        if (l.includes('figma') || l.includes('canva') || l.includes('behance')) return 'designs';
         return 'other';
       }
 
       function convertDriveLink(url) {
-        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-        if (match) {
-          const id = match[1];
+        const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (m) {
+          const id = m[1];
           return {
-            directView: `https://drive.google.com/uc?export=view&id=${id}`,
-            directDownload: `https://drive.google.com/uc?export=download&id=${id}`,
+            view: `https://drive.google.com/uc?export=view&id=${id}`,
+            download: `https://drive.google.com/uc?export=download&id=${id}`,
             embed: `https://drive.google.com/file/d/${id}/preview`,
-            thumbnail: `https://drive.google.com/thumbnail?id=${id}&sz=w600`,
-            fileId: id
+            thumb: `https://drive.google.com/thumbnail?id=${id}&sz=w600`
           };
         }
         return null;
       }
 
-      function convertYoutubeLink(url) {
-        const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/);
-        return match ? { embed: `https://www.youtube.com/embed/${match[1]}`, thumbnail: `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` } : null;
+      function convertYoutube(url) {
+        const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/);
+        return m ? { embed: `https://www.youtube.com/embed/${m[1]}` } : null;
       }
 
-      function convertVimeoLink(url) {
-        const match = url.match(/vimeo\.com\/(\d+)/);
-        return match ? { embed: `https://player.vimeo.com/video/${match[1]}` } : null;
-      }
-
-      function populateCategoryDropdowns() {
-        const sel = document.getElementById('detailCategory');
-        sel.innerHTML = '<option value="">-- Select existing --</option>';
-        data.categories.forEach(c => sel.innerHTML += `<option value="${c}">${c}</option>`);
-      }
-
-      function getItemsBySection(section) {
+      function getItems(section) {
         return data.items.filter(i => i.section === section);
       }
 
-      function updateTabCounts() {
-        document.getElementById('photosCount').textContent = getItemsBySection('photos').length;
-        document.getElementById('videosCount').textContent = getItemsBySection('videos').length;
-        document.getElementById('designsCount').textContent = getItemsBySection('designs').length;
-        document.getElementById('otherCount').textContent = getItemsBySection('other').length;
+      function updateCounts() {
+        ['photos','videos','designs','other'].forEach(s => {
+          document.getElementById(s+'Count').textContent = getItems(s).length;
+        });
       }
 
       function renderGallery() {
-        const items = getItemsBySection(currentTab);
-        updateTabCounts();
+        const items = getItems(currentTab);
+        updateCounts();
+        const g = document.getElementById('galleryContainer');
 
-        if (items.length === 0) {
-          const icons = { photos: 'fa-camera-retro', videos: 'fa-video', designs: 'fa-palette', other: 'fa-file-alt' };
-          const msgs = {
-            photos: 'No photos yet. Upload files or add links.',
-            videos: 'No videos yet. Upload or add links.',
-            designs: 'No designs yet. Add links to your work.',
-            other: 'No files yet. Add any media.'
-          };
-          gallery.innerHTML = `<div class="empty-state"><i class="fas ${icons[currentTab]}"></i><p>${msgs[currentTab]}</p></div>`;
+        if (!items.length) {
+          g.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>No items yet. Click "Add Media" to start!</p></div>`;
           return;
         }
 
-        gallery.innerHTML = items.map(item => {
-          let mediaHtml = '';
-          const displayUrl = item.url || '';
-          
+        g.innerHTML = items.map(item => {
+          let html = '';
           if (item.section === 'photos') {
-            mediaHtml = `<img src="${displayUrl}" alt="${item.name}" loading="lazy"
-                         onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Image';">`;
+            html = `<img src="${item.thumbnail || item.url}" alt="${item.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22><rect fill=%22%23e2e8f0%22 width=%22400%22 height=%22300%22/><text x=%22150%22 y=%22160%22 fill=%22%2394a3b8%22>Image</text></svg>';">`;
           } else if (item.section === 'videos') {
-            if (item.embedUrl) {
-              mediaHtml = `<iframe src="${item.embedUrl}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
-            } else {
-              mediaHtml = `<video controls src="${displayUrl}" preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>`;
-            }
-          } else if (item.section === 'designs') {
-            if (displayUrl.startsWith('http')) {
-              mediaHtml = `<div class="design-preview"><i class="fas fa-palette"></i><a href="${displayUrl}" target="_blank">🔗 Open Design</a></div>`;
-            } else {
-              mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${displayUrl}" download="${item.name}">📥 Download File</a></div>`;
-            }
+            html = item.embedUrl 
+              ? `<iframe src="${item.embedUrl}" allow="autoplay; fullscreen" allowfullscreen></iframe>`
+              : `<video controls src="${item.url}"></video>`;
           } else {
-            if (displayUrl.startsWith('http')) {
-              mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${displayUrl}" target="_blank">📥 View File</a></div>`;
-            } else {
-              mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${displayUrl}" download="${item.name}">📥 Download File</a></div>`;
-            }
+            html = `<div class="design-preview"><i class="fas fa-${item.section==='designs'?'palette':'file'}"></i><a href="${item.url}" target="_blank">Open ${item.section==='designs'?'Design':'File'}</a></div>`;
           }
 
-          return `
-            <div class="card">
-              <div class="media-frame">${mediaHtml}</div>
-              <div class="card-body">
-                <div class="card-info">
-                  <div class="item-name" title="${item.name}">${item.name || 'Untitled'}</div>
-                  <div class="item-meta">
-                    <span class="platform-badge">${item.platform || 'File'}</span>
-                    ${item.category ? `<span class="category-tag">📁 ${item.category}</span>` : ''}
-                  </div>
-                </div>
-                <div class="card-actions">
-                  <button class="icon-btn copy-btn" data-url="${displayUrl}" title="Copy link">
-                    <i class="fas fa-copy"></i>
-                  </button>
-                  <button class="icon-btn download-btn" data-url="${displayUrl}" data-filename="${item.name}" title="Download">
-                    <i class="fas fa-download"></i> DL
-                  </button>
-                  <button class="icon-btn delete-btn" data-id="${item.id}" title="Delete">
-                    <i class="fas fa-trash"></i>
-                  </button>
+          return `<div class="card">
+            <div class="media-frame">${html}</div>
+            <div class="card-body">
+              <div class="card-info">
+                <div class="item-name">${item.name||'Untitled'}</div>
+                <div class="item-meta">
+                  <span class="platform-badge">${item.platform||'Drive'}</span>
+                  ${item.category?`<span class="category-tag">📁 ${item.category}</span>`:''}
                 </div>
               </div>
-            </div>`;
+              <div class="card-actions">
+                <button class="icon-btn copy-btn" data-url="${item.downloadUrl||item.url}"><i class="fas fa-copy"></i></button>
+                <button class="icon-btn download-btn" data-url="${item.downloadUrl||item.url}" data-name="${item.name}"><i class="fas fa-download"></i> DL</button>
+                <button class="icon-btn delete-btn" data-id="${item.id}"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          </div>`;
         }).join('');
 
-        // Event listeners
-        document.querySelectorAll('.copy-btn').forEach(b => {
-          b.addEventListener('click', () => {
-            const url = b.dataset.url;
-            if (url.startsWith('data:')) {
-              navigator.clipboard.writeText('Local file - use Download button').then(() => 
-                showStatus('📋 Use Download button to save file', 'success'));
-            } else {
-              navigator.clipboard.writeText(url).then(() => showStatus('📋 Link copied!', 'success'));
-            }
-          });
+        // Events
+        g.querySelectorAll('.copy-btn').forEach(b => b.onclick = () => {
+          navigator.clipboard.writeText(b.dataset.url).then(() => showStatus('📋 Link copied!','success'));
         });
-        
-        document.querySelectorAll('.download-btn').forEach(b => {
-          b.addEventListener('click', () => {
-            const url = b.dataset.url;
-            const filename = b.dataset.filename || 'download';
-            if (url.startsWith('data:')) {
-              // Download base64 file
-              const link = document.createElement('a');
-              link.href = url;
-              link.download = filename;
-              link.click();
-              showStatus('⬇️ Downloading...', 'success');
-            } else {
-              window.open(url, '_blank');
-            }
-          });
+        g.querySelectorAll('.download-btn').forEach(b => b.onclick = () => {
+          window.open(b.dataset.url, '_blank');
         });
-        
-        document.querySelectorAll('.delete-btn').forEach(b => {
-          b.addEventListener('click', async () => {
-            if(confirm('Delete this item?')) {
-              const id = b.dataset.id;
-              data.items = data.items.filter(i => i.id !== id);
-              if (uploadedFiles[id]) {
-                delete uploadedFiles[id];
-                localStorage.setItem(FILES_KEY, JSON.stringify(uploadedFiles));
-              }
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-              renderGallery();
-              showStatus('🗑️ Item deleted', 'success');
-            }
-          });
-        });
-      }
-
-      function openImportModal() {
-        importSection.value = currentTab;
-        importUrl.value = '';
-        pendingImport = { section: currentTab, url: '', fileData: null };
-        hideAllPreviews();
-        fileInput.value = '';
-        importModal.classList.add('active');
-      }
-
-      function continueToDetails() {
-        const urlValue = importUrl.value.trim();
-        const hasFile = pendingImport.fileData !== null;
-        
-        if (!hasFile && !urlValue) {
-          showStatus('⚠️ Please upload a file or paste a link', 'error');
-          return;
-        }
-
-        if (!hasFile && urlValue.startsWith('📁')) {
-          showStatus('⚠️ Please upload a file first', 'error');
-          return;
-        }
-
-        pendingImport.section = importSection.value;
-
-        if (hasFile) {
-          // File upload - use base64 data
-          pendingImport.url = pendingImport.fileData.base64;
-          pendingImport.directView = pendingImport.fileData.base64;
-          pendingImport.directDownload = pendingImport.fileData.base64;
-          pendingImport.thumbnail = pendingImport.fileData.base64;
-          pendingImport.platform = 'Device Upload';
-          pendingImport.isLocalFile = true;
-        } else {
-          // URL-based
-          pendingImport.url = urlValue;
-          const driveInfo = convertDriveLink(urlValue);
-          const ytInfo = convertYoutubeLink(urlValue);
-          const vimeoInfo = convertVimeoLink(urlValue);
-
-          if (driveInfo) {
-            pendingImport.directView = driveInfo.directView;
-            pendingImport.directDownload = driveInfo.directDownload;
-            pendingImport.embedUrl = driveInfo.embed;
-            pendingImport.thumbnail = driveInfo.thumbnail;
-            pendingImport.platform = 'Google Drive';
-          } else if (ytInfo) {
-            pendingImport.embedUrl = ytInfo.embed;
-            pendingImport.thumbnail = ytInfo.thumbnail;
-            pendingImport.directDownload = urlValue;
-            pendingImport.platform = 'YouTube';
-          } else if (vimeoInfo) {
-            pendingImport.embedUrl = vimeoInfo.embed;
-            pendingImport.directDownload = urlValue;
-            pendingImport.platform = 'Vimeo';
-          } else {
-            pendingImport.directView = urlValue;
-            pendingImport.directDownload = urlValue;
-            pendingImport.thumbnail = urlValue;
-            pendingImport.platform = 'Direct Link';
+        g.querySelectorAll('.delete-btn').forEach(b => b.onclick = async () => {
+          if (confirm('Delete this item?')) {
+            data.items = data.items.filter(i => i.id !== b.dataset.id);
+            saveLocally();
+            renderGallery();
+            showStatus('🗑️ Deleted','success');
           }
-          pendingImport.isLocalFile = false;
-        }
-
-        importModal.classList.remove('active');
-        document.getElementById('detailName').value = pendingImport.fileData ? pendingImport.fileData.name.replace(/\.[^/.]+$/, "") : '';
-        document.getElementById('detailCategory').value = '';
-        document.getElementById('detailNewCategory').value = '';
-        document.getElementById('detailPlatform').value = pendingImport.platform;
-        document.getElementById('detailDescription').value = '';
-        populateCategoryDropdowns();
-        detailsModal.classList.add('active');
+        });
       }
 
-      async function saveDetails() {
+      function populateCategories() {
+        const sel = document.getElementById('detailCategorySelect');
+        sel.innerHTML = '<option value="">-- Existing --</option>';
+        data.categories.forEach(c => sel.innerHTML += `<option>${c}</option>`);
+      }
+
+      async function saveMedia() {
         const name = document.getElementById('detailName').value.trim();
-        if (!name) { showStatus('⚠️ Please enter a name', 'error'); return; }
+        if (!name) { showStatus('Please enter a name','error'); return; }
 
-        let category = document.getElementById('detailCategory').value;
-        const newCat = document.getElementById('detailNewCategory').value.trim();
-        if (newCat && !data.categories.includes(newCat)) {
-          data.categories.push(newCat);
-          category = newCat;
-        } else if (newCat) {
-          category = newCat;
+        let cat = document.getElementById('detailCategory').value.trim();
+        const catSel = document.getElementById('detailCategorySelect').value;
+        if (!cat && catSel) cat = catSel;
+        if (cat && !data.categories.includes(cat)) {
+          data.categories.push(cat);
         }
 
-        const itemId = Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+        const section = document.getElementById('importSection').value;
+        const platform = document.getElementById('detailPlatform').value;
+        const id = Date.now().toString(36) + Math.random().toString(36).substr(2,6);
+
+        let url, downloadUrl, embedUrl, thumbnail;
         
-        const newItem = {
-          id: itemId,
-          section: pendingImport.section,
-          name,
-          url: pendingImport.directView || pendingImport.url,
-          downloadUrl: pendingImport.directDownload || pendingImport.url,
-          embedUrl: pendingImport.embedUrl || '',
-          thumbnail: pendingImport.thumbnail || '',
-          platform: document.getElementById('detailPlatform').value,
-          category,
-          description: document.getElementById('detailDescription').value.trim(),
-          isLocalFile: pendingImport.isLocalFile || false
-        };
-
-        showLoading('Saving...');
-
-        // Save file data if uploaded from device
-        if (pendingImport.isLocalFile && pendingImport.fileData) {
-          uploadedFiles[itemId] = pendingImport.fileData.base64;
-          localStorage.setItem(FILES_KEY, JSON.stringify(uploadedFiles));
-        }
-
-        // Save to local storage always
-        data.items.push(newItem);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-
-        // Try saving to Google Sheets if configured
-        if (USE_SHEETS && !pendingImport.isLocalFile) {
-          try {
-            await fetch(APPS_SCRIPT_URL, {
-              method: 'POST',
-              body: JSON.stringify(newItem)
-            });
-            showStatus('✅ Saved to database! Visible on all devices.', 'success');
-          } catch (error) {
-            console.error('Sheets save error:', error);
-            showStatus('⚠️ Saved locally only. Sheets not available.', 'error');
-          }
-        } else if (pendingImport.isLocalFile) {
-          showStatus('💾 File saved locally. Upload to Drive for multi-device access.', 'success');
+        if (pendingFile) {
+          url = pendingFile;
+          downloadUrl = pendingFile;
+          thumbnail = pendingFile;
+          embedUrl = '';
         } else {
-          showStatus('💾 Saved locally. Configure Sheets for cloud sync.', 'success');
+          const rawUrl = document.getElementById('importUrl').value.trim();
+          const drive = convertDriveLink(rawUrl);
+          const yt = convertYoutube(rawUrl);
+          
+          if (drive) {
+            url = drive.view;
+            downloadUrl = drive.download;
+            embedUrl = drive.embed;
+            thumbnail = drive.thumb;
+          } else if (yt) {
+            url = rawUrl;
+            downloadUrl = rawUrl;
+            embedUrl = yt.embed;
+            thumbnail = '';
+          } else {
+            url = rawUrl;
+            downloadUrl = rawUrl;
+            embedUrl = '';
+            thumbnail = rawUrl;
+          }
         }
 
-        hideLoading();
-        detailsModal.classList.remove('active');
-        currentTab = pendingImport.section;
+        const item = { id, section, name, url, downloadUrl, embedUrl, thumbnail, platform, category: cat, description: '' };
+
+        // Save locally immediately
+        data.items.push(item);
+        saveLocally();
+        
+        // Try saving to sheets
+        const sheetOk = await saveToSheets(item);
+        
+        // Close modal
+        document.getElementById('importModal').classList.remove('active');
+        document.getElementById('importUrl').value = '';
+        document.getElementById('detailName').value = '';
+        document.getElementById('detailCategory').value = '';
+        document.getElementById('fileInput').value = '';
+        pendingFile = null;
+        
+        currentTab = section;
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelector(`.tab[data-tab="${pendingImport.section}"]`).classList.add('active');
-        pendingImport = { section: 'photos', url: '', fileData: null };
+        document.querySelector(`[data-tab="${section}"]`).classList.add('active');
+        
         renderGallery();
+        showStatus(sheetOk ? '☁️ Saved to cloud! Visible on all devices.' : '💾 Saved locally. Will sync when online.','success');
       }
 
-      // Tab switching
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          currentTab = tab.dataset.tab;
-          renderGallery();
-        });
-      });
+      // Initial load
+      async function init() {
+        const sheetLoaded = await loadFromSheets();
+        if (!sheetLoaded) loadLocalBackup();
+        
+        populateCategories();
+        renderGallery();
+        updateCounts();
+        
+        if (sheetLoaded) showStatus('☁️ Connected! Data syncs across devices.','success');
+      }
 
-      // Button events
-      document.getElementById('openImportModalBtn').addEventListener('click', openImportModal);
-      document.getElementById('cancelImportBtn').addEventListener('click', () => importModal.classList.remove('active'));
-      document.getElementById('continueToDetailsBtn').addEventListener('click', continueToDetails);
-      document.getElementById('backToImportBtn').addEventListener('click', () => {
-        detailsModal.classList.remove('active');
-        importModal.classList.add('active');
-      });
-      document.getElementById('saveDetailsBtn').addEventListener('click', saveDetails);
-      document.getElementById('refreshBtn').addEventListener('click', () => {
-        loadData().then(() => showStatus('🔄 Refreshed!', 'success'));
-      });
-      
-      document.getElementById('manageCategoriesBtn').addEventListener('click', () => {
+      // Event Listeners
+      document.getElementById('openImportModalBtn').onclick = () => {
+        document.getElementById('importModal').classList.add('active');
+        document.getElementById('importSection').value = currentTab;
+        document.getElementById('detailPlatform').value = 'Google Drive';
+        populateCategories();
+      };
+
+      document.getElementById('cancelImportBtn').onclick = () => {
+        document.getElementById('importModal').classList.remove('active');
+        pendingFile = null;
+      };
+
+      document.getElementById('saveMediaBtn').onclick = saveMedia;
+
+      document.getElementById('refreshBtn').onclick = async () => {
+        await loadFromSheets();
+        populateCategories();
+        renderGallery();
+        showStatus('🔄 Refreshed from cloud!','success');
+      };
+
+      // File upload
+      const uploadArea = document.getElementById('uploadArea');
+      const fileInput = document.getElementById('fileInput');
+      uploadArea.onclick = () => fileInput.click();
+      uploadArea.ondragover = e => { e.preventDefault(); uploadArea.style.borderColor = '#0b2b4f'; };
+      uploadArea.ondragleave = () => { uploadArea.style.borderColor = '#dce3ec'; };
+      uploadArea.ondrop = e => {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#dce3ec';
+        if (e.dataTransfer.files.length) readFile(e.dataTransfer.files[0]);
+      };
+      fileInput.onchange = e => { if (e.target.files.length) readFile(e.target.files[0]); };
+
+      function readFile(file) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          pendingFile = ev.target.result;
+          document.getElementById('importUrl').value = '📁 ' + file.name;
+          document.getElementById('detailName').value = file.name.replace(/\.[^/.]+$/, '');
+          document.getElementById('detailPlatform').value = 'Device Upload';
+          
+          if (file.type.startsWith('image/')) document.getElementById('importSection').value = 'photos';
+          else if (file.type.startsWith('video/')) document.getElementById('importSection').value = 'videos';
+          else document.getElementById('importSection').value = 'other';
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Category modal
+      document.getElementById('manageCategoriesBtn').onclick = () => {
         const list = document.getElementById('categoryList');
         list.innerHTML = data.categories.map(c =>
-          `<li style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid #eee;">
+          `<li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid #eee;">
             <span>📁 ${c}</span>
             <button class="icon-btn delete-btn" data-cat="${c}"><i class="fas fa-trash"></i></button>
           </li>`
-        ).join('') || '<li style="color:#64748b;">No categories yet.</li>';
-        document.querySelectorAll('#categoryList .icon-btn').forEach(b => {
-          b.addEventListener('click', () => {
-            const cat = b.getAttribute('data-cat');
-            if(confirm(`Delete "${cat}"?`)) {
-              data.categories = data.categories.filter(c => c !== cat);
-              data.items.forEach(i => { if(i.category === cat) i.category = ''; });
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-              document.getElementById('manageCategoriesBtn').click();
-              populateCategoryDropdowns();
-            }
-          });
+        ).join('') || '<li>No categories</li>';
+        
+        list.querySelectorAll('.delete-btn').forEach(b => b.onclick = () => {
+          if (confirm('Delete category?')) {
+            data.categories = data.categories.filter(c => c !== b.dataset.cat);
+            saveLocally();
+            document.getElementById('manageCategoriesBtn').click();
+            populateCategories();
+          }
         });
-        categoryModal.classList.add('active');
-      });
-      document.getElementById('closeCategoryModalBtn').addEventListener('click', () => categoryModal.classList.remove('active'));
-      document.getElementById('addCategoryBtn').addEventListener('click', () => {
-        const cat = document.getElementById('newCategoryInput').value.trim();
-        if (!cat) return;
-        if (data.categories.includes(cat)) { showStatus('⚠️ Already exists', 'error'); return; }
-        data.categories.push(cat);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        
+        document.getElementById('categoryModal').classList.add('active');
+      };
+
+      document.getElementById('closeCategoryModalBtn').onclick = () => {
+        document.getElementById('categoryModal').classList.remove('active');
+      };
+
+      document.getElementById('addCategoryBtn').onclick = () => {
+        const val = document.getElementById('newCategoryInput').value.trim();
+        if (!val) return;
+        if (data.categories.includes(val)) { showStatus('Already exists','error'); return; }
+        data.categories.push(val);
+        saveLocally();
         document.getElementById('newCategoryInput').value = '';
         document.getElementById('manageCategoriesBtn').click();
-        populateCategoryDropdowns();
+        populateCategories();
+        showStatus('✅ Category added!','success');
+      };
+
+      // Tab switching
+      document.querySelectorAll('.tab').forEach(t => {
+        t.onclick = () => {
+          document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+          t.classList.add('active');
+          currentTab = t.dataset.tab;
+          renderGallery();
+        };
       });
 
       // Close modals on overlay click
-      [importModal, detailsModal, categoryModal].forEach(m => {
-        m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('active'); });
+      document.querySelectorAll('.modal-overlay').forEach(m => {
+        m.onclick = e => { if (e.target === m) m.classList.remove('active'); };
       });
 
-      // Init
-      loadData().then(() => {
-        populateCategoryDropdowns();
-        updateTabCounts();
-        console.log('✅ Hazime Nepal Butwal - Portfolio Ready');
-        console.log('📁 Upload files from device or paste links');
-        console.log('💾 Data saved in browser storage');
-        if (USE_SHEETS) console.log('☁️ Google Sheets sync enabled');
-      });
+      // Start
+      init();
+      console.log('✅ Hazime Nepal Butwal - Ready');
+      console.log('📊 Sheets:', SHEET_CSV_URL ? 'Configured' : 'Not set');
+      console.log('🔌 API:', APPS_SCRIPT_URL ? 'Configured' : 'Not set');
     })();
   </script>
 </body>
