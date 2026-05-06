@@ -116,7 +116,7 @@
     .modal-overlay.active { display: flex; }
     .modal {
       background: white; border-radius: 2rem; padding: 2rem; width: 90%;
-      max-width: 550px; box-shadow: 0 30px 45px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;
+      max-width: 600px; box-shadow: 0 30px 45px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;
     }
     .modal h3 { margin-bottom: 1.5rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
     .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
@@ -128,30 +128,47 @@
       padding: 0.75rem 1rem; border-radius: 2rem; border: 1px solid #dce3ec;
       background: #fafbfc; font-size: 0.9rem;
     }
-    .form-group input:focus, .form-group select:focus { outline: 2px solid #0b2b4f; outline-offset: 2px; }
 
-    .upload-area {
-      border: 2px dashed #dce3ec; border-radius: 1.5rem; padding: 2rem;
-      text-align: center; cursor: pointer; transition: 0.3s; background: #fafbfc;
+    /* UPLOAD BOX THAT SHOWS PREVIEW INSIDE */
+    .upload-box {
+      border: 2px dashed #dce3ec; border-radius: 1.5rem; 
+      min-height: 200px; cursor: pointer; transition: 0.3s; 
+      background: #fafbfc; overflow: hidden; position: relative;
     }
-    .upload-area:hover { border-color: #0b2b4f; background: #f1f5ff; }
-    .upload-area i { font-size: 2rem; color: #0b2b4f; margin-bottom: 0.5rem; }
+    .upload-box:hover { border-color: #0b2b4f; background: #f1f5ff; }
+    .upload-box.has-media { border-style: solid; border-color: #0b2b4f; padding: 0; }
+    
+    .upload-placeholder {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 2rem; text-align: center; height: 100%; min-height: 200px;
+    }
+    .upload-box.has-media .upload-placeholder { display: none; }
+    
+    .upload-placeholder i { font-size: 2.5rem; color: #0b2b4f; margin-bottom: 0.5rem; }
+    .upload-placeholder .filename { font-weight: 600; color: #0b2b4f; margin-top: 0.5rem; }
+    
+    .upload-preview {
+      display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+    }
+    .upload-box.has-media .upload-preview { display: block; }
+    .upload-preview img, .upload-preview video { width: 100%; height: 100%; object-fit: cover; }
+    .upload-preview iframe { width: 100%; height: 100%; border: 0; }
+    
+    .change-media-btn {
+      position: absolute; bottom: 10px; right: 10px; z-index: 10;
+      background: rgba(0,0,0,0.7); color: white; border: none;
+      padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.75rem;
+      cursor: pointer; display: none;
+    }
+    .upload-box.has-media .change-media-btn { display: block; }
 
-    .preview-box {
-      width: 100%; aspect-ratio: 16/9; background: #edf2f9;
-      border-radius: 1rem; overflow: hidden; margin-top: 0.5rem; display: none;
-    }
-    .preview-box.show { display: block; }
-    .preview-box img, .preview-box video, .preview-box iframe {
-      width: 100%; height: 100%; object-fit: cover; border: 0;
-    }
-    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; flex-wrap: wrap; }
     .divider-text { text-align: center; margin: 1rem 0; color: #94a3b8; font-size: 0.85rem; position: relative; }
     .divider-text::before, .divider-text::after {
       content: ''; position: absolute; top: 50%; width: 35%; height: 1px; background: #e2e8f0;
     }
     .divider-text::before { left: 0; }
     .divider-text::after { right: 0; }
+    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; flex-wrap: wrap; }
 
     .status-msg {
       position: fixed; bottom: 20px; right: 20px; padding: 1rem 1.5rem;
@@ -206,18 +223,28 @@
     <div class="modal">
       <h3><i class="fas fa-plus-circle"></i> Add Media</h3>
 
-      <div class="upload-area" id="uploadArea">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <p>📁 Click or drag file here</p>
-        <small style="color:#64748b;">Upload from your device</small>
+      <!-- UPLOAD BOX WITH PREVIEW INSIDE -->
+      <div class="upload-box" id="uploadBox">
+        <div class="upload-placeholder">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p><strong>Click or drag file here</strong></p>
+          <small style="color:#64748b;">Upload from your device</small>
+          <p class="filename" id="uploadedFileName"></p>
+        </div>
+        <div class="upload-preview" id="uploadPreview">
+          <img id="previewImage" style="display:none;">
+          <video id="previewVideo" controls style="display:none;"></video>
+          <iframe id="previewIframe" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+        <button class="change-media-btn" onclick="resetUpload()">✕ Change</button>
       </div>
       <input type="file" id="fileInput" style="display:none;" accept="image/*,video/*,.pdf,.zip">
 
-      <div class="divider-text">OR paste a link</div>
+      <div class="divider-text">OR paste a link below</div>
 
       <div class="form-group">
-        <label>Paste Link (Google Drive, YouTube, etc.)</label>
-        <input type="text" id="mediaUrl" placeholder="https://drive.google.com/file/d/...">
+        <label>Paste Link (Google Drive, YouTube, direct URL)</label>
+        <input type="text" id="mediaUrlInput" placeholder="https://drive.google.com/file/d/...">
       </div>
 
       <div class="form-group">
@@ -240,15 +267,9 @@
         <input type="text" id="mediaCategory" placeholder="e.g., Nature, Events, Portraits">
       </div>
 
-      <div class="preview-box" id="previewBox">
-        <img id="previewImg" style="display:none;">
-        <video id="previewVid" controls style="display:none;"></video>
-        <iframe id="previewIframe" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
-      </div>
-
       <div class="modal-actions">
         <button class="btn btn-outline" onclick="closeAddModal()">Cancel</button>
-        <button class="btn btn-success" onclick="saveMedia()">
+        <button class="btn btn-success" id="saveBtn" onclick="saveMedia()">
           <i class="fas fa-save"></i> Save Media
         </button>
       </div>
@@ -259,7 +280,7 @@
 
   <script>
     // ============================================
-    // YOUR GOOGLE SHEETS URLs
+    // CONFIGURATION
     // ============================================
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT5PiOx2fH1UxOivvGIlo12k0j4MVNWUp47ZL0KEtc1oJ3M8WObdBoHcbbcmKXJ4bZnH04HghDNx7wQ/pub?output=csv';
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTCQLCTWLNRplbwzQJyTakLjxG5gpKTGv_-pRubMFsHD7mrk3N44n9FiQy4t6GDar7/exec';
@@ -267,9 +288,9 @@
     const STORE_KEY = 'hazime_portfolio_data';
     let items = [];
     let currentTab = 'photos';
-    let pendingFileData = null;
+    let pendingFileData = null; // base64 data
+    let pendingFileType = null; // 'image', 'video', 'other'
 
-    // Show status message
     function showStatus(msg, ok = true) {
       const el = document.getElementById('statusMsg');
       el.textContent = msg;
@@ -279,21 +300,16 @@
       el._timeout = setTimeout(() => el.style.display = 'none', 3000);
     }
 
-    // Load data - first from local, then try sheets
+    // ============ DATA LOADING ============
     function loadData() {
-      // Always load local first
       const s = localStorage.getItem(STORE_KEY);
       if (s) {
         items = JSON.parse(s);
-        console.log('📁 Loaded from local storage:', items.length, 'items');
+        console.log('📁 Loaded local:', items.length, 'items');
       }
       
-      // Then try to fetch from sheets
       fetch(SHEET_CSV_URL)
-        .then(res => {
-          if (!res.ok) throw new Error('Sheet fetch failed');
-          return res.text();
-        })
+        .then(res => res.ok ? res.text() : Promise.reject('fetch failed'))
         .then(csv => {
           const rows = csv.split('\n').slice(1);
           const sheetItems = rows.filter(r => r.trim()).map(r => {
@@ -313,31 +329,25 @@
           });
           
           if (sheetItems.length > 0) {
-            // Merge: use sheet data, keep local-only items
-            const localIds = new Set(items.map(i => i.id));
+            const existingIds = new Set(items.map(i => i.id));
             sheetItems.forEach(si => {
-              if (!localIds.has(si.id)) {
-                items.push(si);
-              }
+              if (!existingIds.has(si.id)) items.push(si);
             });
-            console.log('☁️ Loaded from sheets:', sheetItems.length, 'items');
-            showStatus('☁️ Synced with cloud!', true);
+            saveLocal();
+            console.log('☁️ Merged sheets:', sheetItems.length, 'items');
           }
           
-          saveLocal();
           renderGallery();
           updateCounts();
         })
         .catch(err => {
-          console.warn('⚠️ Sheets not available:', err.message);
+          console.warn('⚠️ Sheets unavailable:', err.message);
           renderGallery();
           updateCounts();
         });
     }
 
-    function saveLocal() {
-      localStorage.setItem(STORE_KEY, JSON.stringify(items));
-    }
+    function saveLocal() { localStorage.setItem(STORE_KEY, JSON.stringify(items)); }
 
     function saveToSheets(item) {
       return fetch(APPS_SCRIPT_URL, {
@@ -348,6 +358,7 @@
       }).then(() => true).catch(() => false);
     }
 
+    // ============ GALLERY ============
     function getBySection(s) { return items.filter(i => i.section === s); }
 
     function updateCounts() {
@@ -363,7 +374,7 @@
       const g = document.getElementById('galleryContainer');
 
       if (!filtered.length) {
-        g.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>No items yet. Click "Add Media" to start!</p></div>`;
+        g.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>No items yet. Click "Add Media"!</p></div>`;
         return;
       }
 
@@ -373,24 +384,26 @@
 
         if (item.section === 'photos') {
           mediaHtml = `<img src="${displayUrl}" alt="${item.name}" loading="lazy"
-            onerror="this.onerror=null; this.parentElement.innerHTML='<div class=design-preview><i class=fAS fa-image></i><p>Preview unavailable</p></div>';">`;
+            onerror="this.parentElement.innerHTML='<div class=design-preview><i class=fAS fa-image></i><p>Preview unavailable</p></div>';">`;
         } else if (item.section === 'videos') {
           if (item.embedUrl) {
             mediaHtml = `<iframe src="${item.embedUrl}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-          } else {
+          } else if (displayUrl) {
             mediaHtml = `<video controls src="${displayUrl}" preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>`;
+          } else {
+            mediaHtml = `<div class="design-preview"><i class="fas fa-video"></i><p>Video unavailable</p></div>`;
           }
         } else if (item.section === 'designs') {
           mediaHtml = `<div class="design-preview"><i class="fas fa-palette"></i><a href="${item.url}" target="_blank">🔗 Open Design</a></div>`;
         } else {
-          mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${item.downloadUrl || item.url}" target="_blank">📥 View File</a></div>`;
+          mediaHtml = `<div class="design-preview"><i class="fas fa-file"></i><a href="${item.url}" target="_blank">📥 View File</a></div>`;
         }
 
         return `<div class="card">
           <div class="media-frame">${mediaHtml}</div>
           <div class="card-body">
             <div class="card-info">
-              <div class="item-name" title="${item.name}">${item.name}</div>
+              <div class="item-name">${item.name}</div>
               <div class="item-meta">
                 <span class="platform-badge">${item.platform}</span>
                 ${item.category ? `<span class="category-tag">📁 ${item.category}</span>` : ''}
@@ -406,14 +419,12 @@
       }).join('');
     }
 
-    function copyLink(url) {
-      navigator.clipboard.writeText(url).then(() => showStatus('📋 Link copied!'));
-    }
-
+    function copyLink(url) { navigator.clipboard.writeText(url).then(() => showStatus('📋 Copied!')); }
+    
     function downloadFile(url, name) {
       const a = document.createElement('a');
       a.href = url;
-      a.download = name || 'download';
+      a.download = name || 'file';
       a.target = '_blank';
       document.body.appendChild(a);
       a.click();
@@ -421,7 +432,7 @@
     }
 
     function deleteItem(id) {
-      if (confirm('Delete this item?')) {
+      if (confirm('Delete permanently?')) {
         items = items.filter(i => i.id !== id);
         saveLocal();
         renderGallery();
@@ -437,31 +448,72 @@
       renderGallery();
     }
 
-    function hidePreviews() {
-      document.getElementById('previewImg').style.display = 'none';
-      document.getElementById('previewVid').style.display = 'none';
-      document.getElementById('previewIframe').style.display = 'none';
-      document.getElementById('previewBox').classList.remove('show');
-    }
-
-    function showPreview(url, type) {
-      hidePreviews();
-      const box = document.getElementById('previewBox');
+    // ============ UPLOAD BOX PREVIEW ============
+    function showPreviewInBox(type, src) {
+      const box = document.getElementById('uploadBox');
+      const img = document.getElementById('previewImage');
+      const vid = document.getElementById('previewVideo');
+      const ifr = document.getElementById('previewIframe');
+      
+      // Hide all
+      img.style.display = 'none';
+      vid.style.display = 'none';
+      ifr.style.display = 'none';
+      
       if (type === 'image') {
-        document.getElementById('previewImg').src = url;
-        document.getElementById('previewImg').style.display = 'block';
-        box.classList.add('show');
+        img.src = src;
+        img.style.display = 'block';
       } else if (type === 'video') {
-        document.getElementById('previewVid').src = url;
-        document.getElementById('previewVid').style.display = 'block';
-        box.classList.add('show');
+        vid.src = src;
+        vid.style.display = 'block';
       } else if (type === 'iframe') {
-        document.getElementById('previewIframe').src = url;
-        document.getElementById('previewIframe').style.display = 'block';
-        box.classList.add('show');
+        ifr.src = src;
+        ifr.style.display = 'block';
       }
+      
+      box.classList.add('has-media');
     }
 
+    function resetUpload() {
+      const box = document.getElementById('uploadBox');
+      box.classList.remove('has-media');
+      document.getElementById('previewImage').style.display = 'none';
+      document.getElementById('previewVideo').style.display = 'none';
+      document.getElementById('previewIframe').style.display = 'none';
+      document.getElementById('uploadedFileName').textContent = '';
+      document.getElementById('fileInput').value = '';
+      pendingFileData = null;
+      pendingFileType = null;
+    }
+
+    // ============ FILE HANDLING ============
+    function handleFile(file) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        pendingFileData = ev.target.result;
+        
+        if (file.type.startsWith('image/')) {
+          pendingFileType = 'image';
+          showPreviewInBox('image', pendingFileData);
+          document.getElementById('mediaSection').value = 'photos';
+        } else if (file.type.startsWith('video/')) {
+          pendingFileType = 'video';
+          showPreviewInBox('video', pendingFileData);
+          document.getElementById('mediaSection').value = 'videos';
+        } else {
+          pendingFileType = 'other';
+          document.getElementById('uploadBox').classList.add('has-media');
+          document.getElementById('mediaSection').value = 'other';
+        }
+        
+        document.getElementById('uploadedFileName').textContent = '📁 ' + file.name;
+        document.getElementById('mediaName').value = file.name.replace(/\.[^/.]+$/, '');
+        document.getElementById('mediaUrlInput').value = '';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ============ URL LINK PREVIEW ============
     function processDriveUrl(url) {
       const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if (m) {
@@ -489,65 +541,76 @@
       return 'other';
     }
 
+    function handleUrlInput(url) {
+      if (!url || url.startsWith('📁')) {
+        if (!pendingFileData) resetUpload();
+        return;
+      }
+      
+      // Reset file upload if user is pasting a link
+      resetUpload();
+      
+      const drive = processDriveUrl(url);
+      const yt = processYoutube(url);
+      
+      if (drive) {
+        showPreviewInBox('image', drive.thumb);
+        document.getElementById('mediaSection').value = 'photos';
+        document.getElementById('uploadedFileName').textContent = '🔗 Google Drive';
+      } else if (yt) {
+        showPreviewInBox('iframe', yt.embed);
+        document.getElementById('mediaSection').value = 'videos';
+        document.getElementById('uploadedFileName').textContent = '🔗 YouTube';
+      } else if (url.match(/\.(jpg|jpeg|png|gif|webp|svg)($|\?)/i)) {
+        showPreviewInBox('image', url);
+        document.getElementById('mediaSection').value = 'photos';
+        document.getElementById('uploadedFileName').textContent = '🔗 Image Link';
+      } else if (url.match(/\.(mp4|webm|mov)($|\?)/i)) {
+        showPreviewInBox('video', url);
+        document.getElementById('mediaSection').value = 'videos';
+        document.getElementById('uploadedFileName').textContent = '🔗 Video Link';
+      } else {
+        document.getElementById('uploadBox').classList.add('has-media');
+        document.getElementById('mediaSection').value = detectSection(url);
+        document.getElementById('uploadedFileName').textContent = '🔗 Link';
+      }
+    }
+
+    // ============ MODAL ============
     function openAddModal() {
       document.getElementById('addModal').classList.add('active');
       document.getElementById('mediaSection').value = currentTab;
-      hidePreviews();
-      pendingFileData = null;
-      document.getElementById('mediaUrl').value = '';
+      resetUpload();
+      document.getElementById('mediaUrlInput').value = '';
       document.getElementById('mediaName').value = '';
       document.getElementById('mediaCategory').value = '';
-      document.getElementById('fileInput').value = '';
     }
 
     function closeAddModal() {
       document.getElementById('addModal').classList.remove('active');
-      hidePreviews();
-      pendingFileData = null;
+      resetUpload();
     }
 
-    function handleFile(file) {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        pendingFileData = ev.target.result;
-        document.getElementById('mediaUrl').value = '📁 ' + file.name;
-        document.getElementById('mediaName').value = file.name.replace(/\.[^/.]+$/, '');
-        
-        if (file.type.startsWith('image/')) {
-          showPreview(pendingFileData, 'image');
-          document.getElementById('mediaSection').value = 'photos';
-        } else if (file.type.startsWith('video/')) {
-          showPreview(pendingFileData, 'video');
-          document.getElementById('mediaSection').value = 'videos';
-        } else {
-          hidePreviews();
-          document.getElementById('mediaSection').value = 'other';
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-
+    // ============ SAVE ============
     function saveMedia() {
       const name = document.getElementById('mediaName').value.trim();
-      if (!name) {
-        showStatus('⚠️ Please enter a name', false);
-        return;
-      }
+      if (!name) { showStatus('⚠️ Please enter a name', false); return; }
 
       const section = document.getElementById('mediaSection').value;
       const category = document.getElementById('mediaCategory').value.trim();
-      const rawUrl = document.getElementById('mediaUrl').value.trim();
+      const rawUrl = document.getElementById('mediaUrlInput').value.trim();
       const id = 'item_' + Date.now();
 
       let url, downloadUrl, embedUrl, thumbnail, platform;
 
       if (pendingFileData) {
+        // File upload
         url = pendingFileData;
         downloadUrl = pendingFileData;
         thumbnail = pendingFileData;
         embedUrl = '';
         platform = 'Device Upload';
-      } else if (rawUrl && !rawUrl.startsWith('📁')) {
+      } else if (rawUrl) {
         const drive = processDriveUrl(rawUrl);
         const yt = processYoutube(rawUrl);
         
@@ -571,29 +634,25 @@
           platform = 'Direct Link';
         }
       } else {
-        showStatus('⚠️ Please upload a file or paste a link', false);
+        showStatus('⚠️ Upload a file or paste a link', false);
         return;
       }
 
       const newItem = { id, section, name, url, downloadUrl, embedUrl, thumbnail, platform, category, description: '' };
 
-      // Save locally FIRST
+      // Save
       items.push(newItem);
       saveLocal();
-      
-      // Try saving to sheets
-      saveToSheets(newItem).then(ok => {
-        if (ok) console.log('☁️ Saved to sheets');
-      });
+      saveToSheets(newItem).then(ok => { if (ok) console.log('☁️ Synced to sheets'); });
 
-      // Close modal and update
+      // Close and refresh
       closeAddModal();
       currentTab = section;
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelector(`[data-tab="${section}"]`).classList.add('active');
       renderGallery();
       updateCounts();
-      showStatus('✅ Saved! Refreshing...');
+      showStatus('✅ Media saved!');
     }
 
     function refreshData() {
@@ -601,42 +660,34 @@
       showStatus('🔄 Refreshed!');
     }
 
-    // Event listeners
-    document.getElementById('uploadArea').onclick = () => document.getElementById('fileInput').click();
-    document.getElementById('uploadArea').ondragover = e => { e.preventDefault(); e.currentTarget.style.borderColor = '#0b2b4f'; };
-    document.getElementById('uploadArea').ondragleave = e => { e.currentTarget.style.borderColor = '#dce3ec'; };
-    document.getElementById('uploadArea').ondrop = e => {
+    // ============ EVENT LISTENERS ============
+    const uploadBox = document.getElementById('uploadBox');
+    uploadBox.addEventListener('click', function(e) {
+      if (e.target.classList.contains('change-media-btn')) return;
+      document.getElementById('fileInput').click();
+    });
+    
+    uploadBox.addEventListener('dragover', function(e) {
       e.preventDefault();
-      e.currentTarget.style.borderColor = '#dce3ec';
+      this.style.borderColor = '#0b2b4f';
+    });
+    
+    uploadBox.addEventListener('dragleave', function() {
+      this.style.borderColor = '#dce3ec';
+    });
+    
+    uploadBox.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.style.borderColor = '#dce3ec';
       if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    };
-    document.getElementById('fileInput').onchange = e => {
-      if (e.target.files.length) handleFile(e.target.files[0]);
-    };
+    });
 
-    document.getElementById('mediaUrl').addEventListener('input', function() {
-      const url = this.value.trim();
-      if (!url || url.startsWith('📁')) { hidePreviews(); return; }
-      
-      const drive = processDriveUrl(url);
-      const yt = processYoutube(url);
-      
-      if (drive) {
-        showPreview(drive.thumb, 'image');
-        document.getElementById('mediaSection').value = 'photos';
-      } else if (yt) {
-        showPreview(yt.embed, 'iframe');
-        document.getElementById('mediaSection').value = 'videos';
-      } else if (url.match(/\.(jpg|jpeg|png|gif|webp|svg)($|\?)/i)) {
-        showPreview(url, 'image');
-        document.getElementById('mediaSection').value = 'photos';
-      } else if (url.match(/\.(mp4|webm|mov)($|\?)/i)) {
-        showPreview(url, 'video');
-        document.getElementById('mediaSection').value = 'videos';
-      } else {
-        hidePreviews();
-        document.getElementById('mediaSection').value = detectSection(url);
-      }
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      if (e.target.files.length) handleFile(e.target.files[0]);
+    });
+
+    document.getElementById('mediaUrlInput').addEventListener('input', function() {
+      handleUrlInput(this.value.trim());
     });
 
     // Close modal on overlay click
@@ -644,7 +695,7 @@
       if (e.target === this) closeAddModal();
     });
 
-    // Initialize
+    // Init
     loadData();
     console.log('✅ Hazime Nepal Butwal - Ready');
   </script>
